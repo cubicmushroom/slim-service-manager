@@ -1,15 +1,47 @@
-var gulp  = require('gulp'),
-    watch = require('gulp-watch'),
-    shell = require('gulp-shell');
+var gulp     = require('gulp'),
+    watch    = require('gulp-watch'),
+    shell   = require('gulp-shell'),
+    codecept = require('gulp-codeception'),
+    notify = require('gulp-notify');
+
+var srcFilePattern = './src/**/*.php',
+    unitTestPattern = './tests/unit/**/*.php',
+    testSupportFilePattern = './tests/_support/**/*.php';
+
+
+gulp.task('clear', shell.task(
+    [
+        'echo', 'echo', 'echo', 'echo', 'echo', 'echo', 'echo', 'echo', 'echo', 'echo', 'echo', 'echo', 'echo',
+        'echo', 'echo', 'echo', 'echo', 'echo', 'echo', 'echo', 'echo', 'echo', 'echo', 'echo', 'echo', 'echo',
+        'echo', 'echo', 'echo', 'echo', 'echo', 'echo', 'echo', 'echo', 'echo', 'echo', 'echo', 'echo', 'echo'
+    ]
+));
+
 
 
 /**
  * Codeception tasks
  */
-// Run unit tests
- gulp.task('cc:run:unit', shell.task(['codecept run unit']));
-
-// Watch for changes and run unit tests
-gulp.task('cc:watch:unit', function () {
-    gulp.watch(['src/**/*.php', 'tests/**/*.php'], ['cc:run:unit']);
+gulp.task('cc:unit', function(){
+    var options = {
+        flags: '--no-colors',
+        testSuite: 'unit',
+        debug: false,
+        notify: true
+    };
+    gulp.src(unitTestPattern)
+        .pipe(codecept(false, options))
+        .on('error', notify.onError({
+            title : "Unit Tests failed!",
+            message: "Errors during runtime <%= error.message %>",
+            icon: './node_modules/gulp-codeception/assets/test-fail.jpg'
+        }))
+        .pipe(notify({
+            title: 'Success!',
+            icon: './node_modules/gulp-codeception/assets/test-pass.jpg',
+            message: 'Everything was successful!'
+        }))
+});
+gulp.task('watch:cc:unit', function(){
+    gulp.watch([srcFilePattern, unitTestPattern, testSupportFilePattern], ['clear', 'cc:unit']);
 });
