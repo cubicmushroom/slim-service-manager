@@ -8,6 +8,8 @@
 
 namespace CubicMushroom\Slim\ServiceManager;
 
+use CubicMushroom\Slim\ServiceManager\Exception\Config\InvalidServiceCallConfigException;
+use CubicMushroom\Slim\ServiceManager\Exception\Config\InvalidServiceConfigException;
 use CubicMushroom\Slim\ServiceManager\Exception\InvalidOptionException;
 use Slim\Slim;
 
@@ -101,7 +103,18 @@ class ServiceManager
         $settings = $app->container->get('settings');
 
         if (!empty($settings['services'])) {
+            if (!is_array($settings['services'])) {
+                throw InvalidServiceConfigException::build([], ['serviceConfig' => $settings['services']]);
+            }
+
             foreach ($settings['services'] as $service => $config) {
+                if (!is_array($config)) {
+                    throw InvalidServiceConfigException::build(
+                        [],
+                        ['serviceName' => $service, 'serviceConfig' => $config]
+                    );
+                }
+                $this->validateServiceConfig($config, $service);
                 $app->container->singleton(
                     $service,
                     function () use ($config) {
@@ -128,7 +141,7 @@ class ServiceManager
     /**
      * Registers the service manager itself as a service for the app
      */
-    protected function registerSelfAsService()
+    public function registerSelfAsService()
     {
         $this->getApp()->container->set($this->options['ownServiceName'], $this);
     }
@@ -149,6 +162,65 @@ class ServiceManager
     protected function mergeOptions($defaults, $options)
     {
         return array_merge($defaults, $options);
+    }
+
+
+    /**
+     *
+     * @param array  $config      Config to be checked
+     * @param string $serviceName Name of the service checking (for exception)
+     *
+     * @throws InvalidServiceConfigException if missing class parameters
+     * @throws InvalidServiceCallConfigException if the call config is not valid
+     */
+    protected function validateServiceConfig(array $config, $serviceName)
+    {
+        $exceptionArgs = ['serviceName' => $serviceName, 'serviceConfig' => $config];
+
+        if (!isset($config['class'])) {
+            throw InvalidServiceConfigException::build(
+                [],
+                array_merge($exceptionArgs, ['missingParameter' => 'class'])
+            );
+        }
+
+        if (isset($config['calls'])) {
+            if (!is_array($config['calls'])) {
+                throw InvalidServiceCallConfigException::build(
+                    [],
+                    array_merge(
+                        $exceptionArgs,
+                        ['callConfig' => $config['calls']]
+                    )
+                );
+            }
+
+            foreach ($config['calls'] as $callConfigIndex => $callConfig) {
+                if (!is_array($callConfig)) {
+                    throw InvalidServiceCallConfigException::build(
+                        [],
+                        array_merge(
+                            $exceptionArgs,
+                            ['callConfig' => $callConfig, 'callConfigIndex' => $callConfigIndex]
+                        )
+                    );
+                }
+
+                if (isset($callConfig[1]) && !is_array($callConfig[1])) {
+                    throw InvalidServiceCallConfigException::build(
+                        [],
+                        array_merge(
+                            $exceptionArgs,
+                            [
+                                'callConfig'       => $callConfig,
+                                'callConfigIndex'  => $callConfigIndex,
+                                'invalidArguments' => $callConfig[1]
+                            ]
+                        )
+                    );
+                }
+            }
+        }
     }
 
 

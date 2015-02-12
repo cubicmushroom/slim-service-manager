@@ -1,9 +1,8 @@
 <?php
 namespace CubicMushroom\Slim\ServiceManager;
 
-use AspectMock\Proxy\Verifier;
-use AspectMock\Test as test;
-use Slim\Helper\Set;
+use CubicMushroom\Slim\ServiceManager\Exception\Config\InvalidServiceCallConfigException;
+use CubicMushroom\Slim\ServiceManager\Exception\Config\InvalidServiceConfigException;
 use Slim\Slim;
 
 /**
@@ -73,14 +72,27 @@ class ServiceManagerTest extends \PHPUnit_Framework_TestCase
 
 
     /**
+     * Tests that the service is registered if 'registerAsService' option is not set
+     */
+    public function testThatTheServiceIsRegisteredIfRegisterAsServiceOptionIsNotSet()
+    {
+        $app = new Slim();
+
+        new ServiceManager($app);
+
+        $this->assertInstanceOf(
+            '\CubicMushroom\Slim\ServiceManager\ServiceManager',
+            $app->container->get(ServiceManager::DEFAULT_SERVICE_NAME)
+        );
+    }
+
+
+    /**
      * Tests that the service is not registered if 'registerAsService' option is set to false
      */
     public function testThatTheServiceIsNotRegisteredIfRegisterAsServiceOptionIsSetToFalse()
     {
         $app = new Slim();
-        /** @var Verifier|Set $container */
-        $container      = test::double($app->container);
-        $app->container = $container;
 
         new ServiceManager($app, ['registerAsService' => false]);
 
@@ -94,9 +106,6 @@ class ServiceManagerTest extends \PHPUnit_Framework_TestCase
     public function testThatTheServiceIsRegisteredIfRegisterAsServiceOptionIsSetToTrue()
     {
         $app = new Slim();
-        /** @var Verifier|Set $container */
-        $container      = test::double($app->container);
-        $app->container = $container;
 
         new ServiceManager($app, ['registerAsService' => true]);
 
@@ -108,34 +117,22 @@ class ServiceManagerTest extends \PHPUnit_Framework_TestCase
 
 
     /**
-     * Tests that the service is registered if 'registerAsService' option is not set
+     * Tests that the registerSelfAsService() method works
      */
-    public function testThatTheServiceIsRegisteredIfRegisterAsServiceOptionIsNotSet()
+    public function testThatTheRegisterSelfAsServiceMethodWorks()
     {
         $app = new Slim();
-        /** @var Verifier|Set $container */
-        $container      = test::double($app->container);
-        $app->container = $container;
 
-        new ServiceManager($app);
+        $serviceManager = new ServiceManager($app, ['registerAsService' => false]);
+
+        $this->assertNull($app->container->get(ServiceManager::DEFAULT_SERVICE_NAME));
+
+        $serviceManager->registerSelfAsService();
 
         $this->assertInstanceOf(
             '\CubicMushroom\Slim\ServiceManager\ServiceManager',
             $app->container->get(ServiceManager::DEFAULT_SERVICE_NAME)
         );
-    }
-
-
-    /**
-     * Tests that attempting to change the service name after the service manager is registered throws an exception
-     *
-     * @expectedException
-     * @expectedExceptionMessage
-     * @expectedExceptionCode
-     */
-    public function testThatAttemptingToChangeTheServiceNameAfterTheServiceManagerIsRegisteredThrowsAnException()
-    {
-        $this->markTestIncomplete();
     }
 
 
@@ -223,65 +220,142 @@ class ServiceManagerTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests an exception is thrown if the 'services' config is not an array
      *
-     * @expectedException
      * @expectedExceptionMessage
-     * @expectedExceptionCode
+     * @expectedExceptionCode 500
      */
     public function testAnExceptionIsThrownIfTheServicesConfigIsNotAnArray()
     {
-        $this->markTestIncomplete();
+        try {
+            $app = new Slim(['services' => 123]);
+            new ServiceManager($app);
+        } catch (\Exception $e) {
+        }
+
+        $this->assertTrue(isset($e));
+        $this->assertInstanceOf('CubicMushroom\Slim\ServiceManager\Exception\Config\InvalidServiceConfigException', $e);
+        $this->assertContains('Service config not a valid array of service definitions', $e->getMessage());
+        $this->assertEquals(500, $e->getCode());
     }
 
 
     /**
      * Tests that an exception is thrown if the 'calls' config is not an array
-     *
-     * @expectedException
-     * @expectedExceptionMessage
-     * @expectedExceptionCode
      */
     public function testThatAnExceptionIsThrownIfTheCallsConfigIsNotAnArray()
     {
-        $this->markTestIncomplete();
+        $app = new Slim(['services' => ['invalidCallService']]);
+        try {
+            new ServiceManager($app);
+        } catch (\Exception $e) {
+        }
+
+        $this->assertTrue(isset($e));
+        $this->assertInstanceOf('CubicMushroom\Slim\ServiceManager\Exception\Config\InvalidServiceConfigException', $e);
+        $this->assertContains("Invalid config for '0' service", $e->getMessage());
+        $this->assertEquals(500, $e->getCode());
     }
 
 
     /**
-     * Tests that an exception is thrown if a 'calls' config entry does not have a correct setter value
-     *
-     * @expectedException
-     * @expectedExceptionMessage
-     * @expectedExceptionCode
+     * Tests an exception is thrown when no service class is provided
      */
-    public function testThatAnExceptionIsThrownIfACallsConfigEntryDoesNotHaveACorrectSetterValue()
+    public function testAnExceptionIsThrownWhenNoServiceClassIsProvided()
     {
-        $this->markTestIncomplete();
+        $serviceDefinition = ['missingClass' => []];
+
+        $app = new Slim(['services' => $serviceDefinition]);
+        try {
+            new ServiceManager($app);
+        } catch (\Exception $e) {
+        }
+
+        $this->assertTrue(isset($e));
+        $this->assertInstanceOf('CubicMushroom\Slim\ServiceManager\Exception\Config\InvalidServiceConfigException', $e);
+        /** @var InvalidServiceConfigException $e */
+        $this->assertContains(
+            "Invalid config for 'missingClass' service - Missing 'class' parameter'",
+            $e->getMessage()
+        );
+        $this->assertEquals(500, $e->getCode());
+        $this->assertEquals($serviceDefinition['missingClass'], $e->getServiceConfig());
+        $this->assertEquals('class', $e->getMissingParameter());
     }
 
 
     /**
-     * Tests that an exception is thrown if a 'calls' config entry setter is not a callable method
-     *
-     * @expectedException
-     * @expectedExceptionMessage
-     * @expectedExceptionCode
+     * Tests an exception is thrown if a 'calls' config entry is not valid
      */
-    public function testThatAnExceptionIsThrownIfACallsConfigEntrySetterIsNotACallableMethod()
+    public function testAnExceptionIsThrownIfACallsConfigEntryIsNotValid()
     {
+        $serviceDefinition = [
+            'invalidCallService' => [
+                'class' => '\CubicMushroom\Slim\ServiceManager\TestService',
+                'calls' => ['invalidCallDefinition']
+            ]
+        ];
+        $app               = new Slim(['services' => $serviceDefinition]);
+        try {
+            new ServiceManager($app);
+        } catch (\Exception $e) {
+        }
+
+        $this->assertTrue(isset($e));
+        $this->assertInstanceOf(
+            'CubicMushroom\Slim\ServiceManager\Exception\Config\InvalidServiceCallConfigException',
+            $e
+        );
+        /** @var InvalidServiceCallConfigException $e */
+        $this->assertContains(
+            "Invalid 'call' config for 'invalidCallService' service - Call config index '0'",
+            $e->getMessage()
+        );
+        $this->assertEquals(500, $e->getCode());
+        $this->assertEquals($serviceDefinition['invalidCallService'], $e->getServiceConfig());
+        $this->assertEquals($serviceDefinition['invalidCallService']['calls'][0], $e->getCallConfig());
     }
 
 
     /**
-     * Tests that an exception is thrown if a 'calls' config entry does not have a correct values array
-     *
-     * @expectedException
-     * @expectedExceptionMessage
-     * @expectedExceptionCode
+     * Tests an exception is thrown if a call config arguments are not an array
      */
-    public function testThatAnExceptionIsThrownIfACallsConfigEntryDoesNotHaveACorrectValuesArray()
+    public function testAnExceptionIsThrownIfACallConfigArgumentsAreNotAnArray()
     {
-        $this->markTestIncomplete();
+        $serviceDefinition = [
+            'invalidCallService' => [
+                'class' => '\CubicMushroom\Slim\ServiceManager\TestService',
+                'calls' => [['invalidCallDefinition', 123]]
+            ]
+        ];
+        $app               = new Slim(['services' => $serviceDefinition]);
+        try {
+            new ServiceManager($app);
+        } catch (\Exception $e) {
+        }
+
+        $this->assertTrue(isset($e));
+        $this->assertInstanceOf(
+            'CubicMushroom\Slim\ServiceManager\Exception\Config\InvalidServiceCallConfigException',
+            $e
+        );
+        /** @var InvalidServiceCallConfigException $e */
+        $this->assertContains(
+            "Invalid 'call' config for 'invalidCallService' service - Call config index '0' - Arguments must be an " .
+            "array",
+            $e->getMessage()
+        );
+        $this->assertEquals(500, $e->getCode());
+        $this->assertEquals($serviceDefinition['invalidCallService'], $e->getServiceConfig());
+        $this->assertEquals($serviceDefinition['invalidCallService']['calls'][0], $e->getCallConfig());
+        $this->assertEquals($serviceDefinition['invalidCallService']['calls'][0][1], $e->getInvalidArguments());
     }
+}
+
+
+class TestSlim
+{
+
+    public $container;
+
 }
 
 
