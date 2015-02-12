@@ -9,7 +9,6 @@
 namespace CubicMushroom\Slim\ServiceManager;
 
 use CubicMushroom\Slim\ServiceManager\Exception\InvalidOptionException;
-use CubicMushroom\Slim\ServiceManager\Exception\PropertyAlreadySetException;
 use Slim\Slim;
 
 /**
@@ -24,12 +23,24 @@ class ServiceManager
 
     const DEFAULT_SERVICE_NAME = 'service_manager';
 
+    const DEFAULT_REGISTER_SERVICE = true;
+
     /**
-     * Name the service manager registers itself as a service under
+     * Array of options
      *
-     * @var string
+     * @var array
      */
-    protected $ownServiceName;
+    protected $options = [];
+
+    /**
+     * Options supported
+     *
+     * @var array
+     */
+    protected $defaultOptions = [
+        'ownServiceName'    => self::DEFAULT_SERVICE_NAME,
+        'registerAsService' => self::DEFAULT_REGISTER_SERVICE,
+    ];
 
     /**
      * @var Slim
@@ -44,22 +55,20 @@ class ServiceManager
      * Loads services into Slim App based on the content of the 'services' config settings
      *
      * @param Slim  $app     [optional] Slim application object to load services for
-     * @param array $options [optional] Array of options for the setup of the ServiceManager
+     * @param array $options [optional] Array of options for the setup of the ServiceManagers
      */
     public function __construct(Slim $app = null, array $options = [])
     {
-        $defaultOptions = [
-            'ownServiceName' => self::DEFAULT_SERVICE_NAME,
-        ];
-
-        $this->setOptions($this->mergeOptions($defaultOptions, $options));
+        $this->setOptions($this->mergeOptions($this->defaultOptions, $options));
 
         if (!is_null($app)) {
             $this->setApp($app);
 
             $this->setupServices();
 
-            $this->registerSelfAsService();
+            if ($this->getOption('registerAsService')) {
+                $this->registerSelfAsService();
+            }
         }
     }
 
@@ -77,17 +86,8 @@ class ServiceManager
     protected function setOptions(array $options)
     {
         foreach ($options as $key => $value) {
-            switch ($key) {
-                case 'ownServiceName':
-                    $this->setOwnServiceName($value);
-                    break;
-
-                default:
-                    throw InvalidOptionException::build([], ['option' => $key]);
-            }
-
+            $this->setOption($key, $value);
         }
-
     }
 
 
@@ -130,7 +130,7 @@ class ServiceManager
      */
     protected function registerSelfAsService()
     {
-        $this->getApp()->container->set($this->ownServiceName, $this);
+        $this->getApp()->container->set($this->options['ownServiceName'], $this);
     }
 
 
@@ -175,25 +175,34 @@ class ServiceManager
 
 
     /**
+     * @param $key
+     *
      * @return string
+     *
+     * @throws InvalidOptionException if the option is now set
      */
-    public function getOwnServiceName()
+    public function getOption($key)
     {
-        return $this->ownServiceName;
+        if (!isset($this->options[$key])) {
+            throw InvalidOptionException::build([], ['option' => $key]);
+        }
+
+        return $this->options[$key];
     }
 
 
     /**
-     * @param string $ownServiceName
+     * @param string $key
+     * @param mixed  $value
      *
-     * @throws PropertyAlreadySetException
+     * @throws InvalidOptionException if attempting to set an unsupported option
      */
-    public function setOwnServiceName($ownServiceName)
+    public function setOption($key, $value)
     {
-        if (isset($this->ownServiceName)) {
-            throw PropertyAlreadySetException::build([], ['property' => 'ownServiceName']);
+        if (!in_array($key, array_keys($this->defaultOptions))) {
+            throw InvalidOptionException::build([], ['option' => $key]);
         }
 
-        $this->ownServiceName = $ownServiceName;
+        $this->options[$key] = $value;
     }
 }

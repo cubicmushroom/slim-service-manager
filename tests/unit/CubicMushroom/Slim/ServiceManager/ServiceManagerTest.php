@@ -1,7 +1,9 @@
 <?php
 namespace CubicMushroom\Slim\ServiceManager;
 
-use CubicMushroom\Slim\ServiceManager\Exception\PropertyAlreadySetException;
+use AspectMock\Proxy\Verifier;
+use AspectMock\Test as test;
+use Slim\Helper\Set;
 use Slim\Slim;
 
 /**
@@ -71,18 +73,56 @@ class ServiceManagerTest extends \PHPUnit_Framework_TestCase
 
 
     /**
-     * Tests that trying to set the service name after it's set throws an exception
-     *
-     * @expectedException \CubicMushroom\Slim\ServiceManager\Exception\PropertyAlreadySetException
-     * @expectedExceptionMessage
-     * @expectedExceptionCode 500
+     * Tests that the service is not registered if 'registerAsService' option is set to false
      */
-    public function testThatTryingToSetTheServiceNameAfterItSSetThrowsAnException()
+    public function testThatTheServiceIsNotRegisteredIfRegisterAsServiceOptionIsSetToFalse()
     {
         $app = new Slim();
-        $serviceManager = new ServiceManager($app);
+        /** @var Verifier|Set $container */
+        $container      = test::double($app->container);
+        $app->container = $container;
 
-        $serviceManager->setOwnServiceName('cannot_change_this_now');
+        new ServiceManager($app, ['registerAsService' => false]);
+
+        $this->assertNull($app->container->get(ServiceManager::DEFAULT_SERVICE_NAME));
+    }
+
+
+    /**
+     * Tests that the service is registered if 'registerAsService' option is set to true
+     */
+    public function testThatTheServiceIsRegisteredIfRegisterAsServiceOptionIsSetToTrue()
+    {
+        $app = new Slim();
+        /** @var Verifier|Set $container */
+        $container      = test::double($app->container);
+        $app->container = $container;
+
+        new ServiceManager($app, ['registerAsService' => true]);
+
+        $this->assertInstanceOf(
+            '\CubicMushroom\Slim\ServiceManager\ServiceManager',
+            $app->container->get(ServiceManager::DEFAULT_SERVICE_NAME)
+        );
+    }
+
+
+    /**
+     * Tests that the service is registered if 'registerAsService' option is not set
+     */
+    public function testThatTheServiceIsRegisteredIfRegisterAsServiceOptionIsNotSet()
+    {
+        $app = new Slim();
+        /** @var Verifier|Set $container */
+        $container      = test::double($app->container);
+        $app->container = $container;
+
+        new ServiceManager($app);
+
+        $this->assertInstanceOf(
+            '\CubicMushroom\Slim\ServiceManager\ServiceManager',
+            $app->container->get(ServiceManager::DEFAULT_SERVICE_NAME)
+        );
     }
 
 
