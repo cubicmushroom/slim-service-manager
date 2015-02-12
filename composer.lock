@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "670ac4b51e2f11eb410483e10b36aaa9",
+    "hash": "d186602e9530679adc4241adbea0cf39",
     "packages": [
         {
             "name": "andrewsville/php-token-reflection",
@@ -90,6 +90,45 @@
             ],
             "description": "Experimental Mocking Framework powered by Aspects",
             "time": "2014-10-15 22:08:46"
+        },
+        {
+            "name": "cubicmushroom/exceptions",
+            "version": "v1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/cubicmushroom/exceptions.git",
+                "reference": "f2444f8b43ab8fa350f5b0c1187df89744fce272"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/cubicmushroom/exceptions/zipball/f2444f8b43ab8fa350f5b0c1187df89744fce272",
+                "reference": "f2444f8b43ab8fa350f5b0c1187df89744fce272",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">= 5.4"
+            },
+            "require-dev": {
+                "codeception/codeception": "~2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Toby Griffiths",
+                    "email": "toby@cubicmushroom.co.uk"
+                }
+            ],
+            "description": "A basic, abstract exceptions class",
+            "time": "2015-02-02 12:27:39"
         },
         {
             "name": "doctrine/annotations",
