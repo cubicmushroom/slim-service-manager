@@ -10,9 +10,16 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "slim/slim": "~2.0"
+        "slim/slim": "~2.0",
+        "codeception/aspect-mock": "*",
+        "cubicmushroom/exceptions": "*"
     },
     "require-dev": {
         "codeception/codeception": "~2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "": "src/"
+        }
     }
 }
