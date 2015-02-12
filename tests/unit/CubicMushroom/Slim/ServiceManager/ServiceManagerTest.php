@@ -1,6 +1,7 @@
 <?php
 namespace CubicMushroom\Slim\ServiceManager;
 
+use CubicMushroom\Slim\ServiceManager\Exception\PropertyAlreadySetException;
 use Slim\Slim;
 
 /**
@@ -58,26 +59,30 @@ class ServiceManagerTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests passing an invalid option to ServiceManager throws an exception
      *
-     * @expectedException
-     * @expectedExceptionMessage
-     * @expectedExceptionCode
+     * @expectedException \CubicMushroom\Slim\ServiceManager\Exception\InvalidOptionException
+     * @expectedExceptionMessage Invalid options 'invalidOption' passed
+     * @expectedExceptionCode    500
      */
     public function testPassingAnInvalidOptionToServiceManagerThrowsAnException()
     {
-        $this->markTestIncomplete();
+        $app = new Slim();
+        new ServiceManager($app, ['invalidOption' => 123]);
     }
 
 
     /**
      * Tests that trying to set the service name after it's set throws an exception
      *
-     * @expectedException
+     * @expectedException \CubicMushroom\Slim\ServiceManager\Exception\PropertyAlreadySetException
      * @expectedExceptionMessage
-     * @expectedExceptionCode
+     * @expectedExceptionCode 500
      */
     public function testThatTryingToSetTheServiceNameAfterItSSetThrowsAnException()
     {
-        $this->markTestIncomplete();
+        $app = new Slim();
+        $serviceManager = new ServiceManager($app);
+
+        $serviceManager->setOwnServiceName('cannot_change_this_now');
     }
 
 

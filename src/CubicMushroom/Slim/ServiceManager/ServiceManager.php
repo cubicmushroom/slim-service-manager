@@ -9,6 +9,7 @@
 namespace CubicMushroom\Slim\ServiceManager;
 
 use CubicMushroom\Slim\ServiceManager\Exception\InvalidOptionException;
+use CubicMushroom\Slim\ServiceManager\Exception\PropertyAlreadySetException;
 use Slim\Slim;
 
 /**
@@ -174,7 +175,7 @@ class ServiceManager
 
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getOwnServiceName()
     {
@@ -183,7 +184,9 @@ class ServiceManager
 
 
     /**
-     * @param mixed $ownServiceName
+     * @param string $ownServiceName
+     *
+     * @throws PropertyAlreadySetException
      */
     public function setOwnServiceName($ownServiceName)
     {
