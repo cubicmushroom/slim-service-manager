@@ -1,0 +1,18 @@
+{
+    "name": "cubicmushroom/slim-service-loader",
+    "description": "Slim Framework add on to handle loading services from config",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Toby Griffiths",
+            "email": "toby@cubicmushroom.co.uk"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "slim/slim": "~2.0"
+    },
+    "require-dev": {
+        "codeception/codeception": "~2.0"
+    }
+}

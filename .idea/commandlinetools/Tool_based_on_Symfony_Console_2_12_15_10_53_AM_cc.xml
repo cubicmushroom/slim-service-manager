@@ -1,0 +1,605 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<framework xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="schemas/frameworkDescriptionVersion1.1.3.xsd" frameworkId="com.symfony.component" name="Tool_based_on_Symfony_Console_2/12/15 10:53 AM_cc" invoke="/Users/toby/src/library/php/slim/slim-service-loader/vendor/bin/codecept" alias="cc" enabled="true" version="2">
+  <command>
+    <name>bootstrap</name>
+    <help><![CDATA[Creates default test suites and generates all requires files<br/><br/><table> <tr><td><strong>Options:</strong></td></tr> <tr><td>--namespace</td><td>(-ns)</td><td>Namespace to add for actor classes and helpers</td></tr> <tr><td>--actor</td><td>(-a)</td><td>Custom actor instead of Guy</td></tr> <tr><td>--compat</td><td></td><td>Codeception 1.x compatible setup</td></tr> <tr><td>--customize</td><td></td><td>Customize suite and actors creation</td></tr> <tr><td>--help</td><td>(-h)</td><td>Display this help message</td></tr> <tr><td>--quiet</td><td>(-q)</td><td>Do not output any message</td></tr> <tr><td>--verbose</td><td>(-v)</td><td>Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug</td></tr> <tr><td>--version</td><td>(-V)</td><td>Display this application version</td></tr> <tr><td>--ansi</td><td></td><td>Force ANSI output</td></tr> <tr><td>--no-ansi</td><td></td><td>Disable ANSI output</td></tr> <tr><td>--no-interaction</td><td>(-n)</td><td>Do not ask any interactive question</td></tr> </table> <br/>]]></help>
+    <params>path[=null]</params>
+    <optionsBefore>
+      <option name="--namespace" shortcut="-ns" pattern="equals">
+        <help><![CDATA[Namespace to add for actor classes and helpers]]></help>
+      </option>
+      <option name="--actor" shortcut="-a" pattern="equals">
+        <help><![CDATA[Custom actor instead of Guy]]></help>
+      </option>
+      <option name="--compat" shortcut="">
+        <help><![CDATA[Codeception 1.x compatible setup]]></help>
+      </option>
+      <option name="--customize" shortcut="">
+        <help><![CDATA[Customize suite and actors creation]]></help>
+      </option>
+      <option name="--help" shortcut="-h">
+        <help><![CDATA[Display this help message]]></help>
+      </option>
+      <option name="--quiet" shortcut="-q">
+        <help><![CDATA[Do not output any message]]></help>
+      </option>
+      <option name="--verbose" shortcut="-v">
+        <help><![CDATA[Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug]]></help>
+      </option>
+      <option name="--version" shortcut="-V">
+        <help><![CDATA[Display this application version]]></help>
+      </option>
+      <option name="--ansi" shortcut="">
+        <help><![CDATA[Force ANSI output]]></help>
+      </option>
+      <option name="--no-ansi" shortcut="">
+        <help><![CDATA[Disable ANSI output]]></help>
+      </option>
+      <option name="--no-interaction" shortcut="-n">
+        <help><![CDATA[Do not ask any interactive question]]></help>
+      </option>
+    </optionsBefore>
+  </command>
+  <command>
+    <name>build</name>
+    <help><![CDATA[Generates base classes for all suites<br/><br/><table> <tr><td><strong>Options:</strong></td></tr> <tr><td>--config</td><td>(-c)</td><td>Use custom path for config</td></tr> <tr><td>--help</td><td>(-h)</td><td>Display this help message</td></tr> <tr><td>--quiet</td><td>(-q)</td><td>Do not output any message</td></tr> <tr><td>--verbose</td><td>(-v)</td><td>Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug</td></tr> <tr><td>--version</td><td>(-V)</td><td>Display this application version</td></tr> <tr><td>--ansi</td><td></td><td>Force ANSI output</td></tr> <tr><td>--no-ansi</td><td></td><td>Disable ANSI output</td></tr> <tr><td>--no-interaction</td><td>(-n)</td><td>Do not ask any interactive question</td></tr> </table> <br/>]]></help>
+    <optionsBefore>
+      <option name="--config" shortcut="-c" pattern="equals">
+        <help><![CDATA[Use custom path for config]]></help>
+      </option>
+      <option name="--help" shortcut="-h">
+        <help><![CDATA[Display this help message]]></help>
+      </option>
+      <option name="--quiet" shortcut="-q">
+        <help><![CDATA[Do not output any message]]></help>
+      </option>
+      <option name="--verbose" shortcut="-v">
+        <help><![CDATA[Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug]]></help>
+      </option>
+      <option name="--version" shortcut="-V">
+        <help><![CDATA[Display this application version]]></help>
+      </option>
+      <option name="--ansi" shortcut="">
+        <help><![CDATA[Force ANSI output]]></help>
+      </option>
+      <option name="--no-ansi" shortcut="">
+        <help><![CDATA[Disable ANSI output]]></help>
+      </option>
+      <option name="--no-interaction" shortcut="-n">
+        <help><![CDATA[Do not ask any interactive question]]></help>
+      </option>
+    </optionsBefore>
+  </command>
+  <command>
+    <name>clean</name>
+    <help><![CDATA[Cleans or creates _output directory<br/><br/><table> <tr><td><strong>Options:</strong></td></tr> <tr><td>--config</td><td>(-c)</td><td>Use custom path for config</td></tr> <tr><td>--help</td><td>(-h)</td><td>Display this help message</td></tr> <tr><td>--quiet</td><td>(-q)</td><td>Do not output any message</td></tr> <tr><td>--verbose</td><td>(-v)</td><td>Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug</td></tr> <tr><td>--version</td><td>(-V)</td><td>Display this application version</td></tr> <tr><td>--ansi</td><td></td><td>Force ANSI output</td></tr> <tr><td>--no-ansi</td><td></td><td>Disable ANSI output</td></tr> <tr><td>--no-interaction</td><td>(-n)</td><td>Do not ask any interactive question</td></tr> </table> <br/>]]></help>
+    <optionsBefore>
+      <option name="--config" shortcut="-c" pattern="equals">
+        <help><![CDATA[Use custom path for config]]></help>
+      </option>
+      <option name="--help" shortcut="-h">
+        <help><![CDATA[Display this help message]]></help>
+      </option>
+      <option name="--quiet" shortcut="-q">
+        <help><![CDATA[Do not output any message]]></help>
+      </option>
+      <option name="--verbose" shortcut="-v">
+        <help><![CDATA[Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug]]></help>
+      </option>
+      <option name="--version" shortcut="-V">
+        <help><![CDATA[Display this application version]]></help>
+      </option>
+      <option name="--ansi" shortcut="">
+        <help><![CDATA[Force ANSI output]]></help>
+      </option>
+      <option name="--no-ansi" shortcut="">
+        <help><![CDATA[Disable ANSI output]]></help>
+      </option>
+      <option name="--no-interaction" shortcut="-n">
+        <help><![CDATA[Do not ask any interactive question]]></help>
+      </option>
+    </optionsBefore>
+  </command>
+  <command>
+    <name>console</name>
+    <help><![CDATA[Launches interactive test console<br/><br/><table> <tr><td><strong>Options:</strong></td></tr> <tr><td>--config</td><td>(-c)</td><td>Use custom path for config</td></tr> <tr><td>--colors</td><td></td><td>Use colors in output</td></tr> <tr><td>--help</td><td>(-h)</td><td>Display this help message</td></tr> <tr><td>--quiet</td><td>(-q)</td><td>Do not output any message</td></tr> <tr><td>--verbose</td><td>(-v)</td><td>Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug</td></tr> <tr><td>--version</td><td>(-V)</td><td>Display this application version</td></tr> <tr><td>--ansi</td><td></td><td>Force ANSI output</td></tr> <tr><td>--no-ansi</td><td></td><td>Disable ANSI output</td></tr> <tr><td>--no-interaction</td><td>(-n)</td><td>Do not ask any interactive question</td></tr> </table> <br/>]]></help>
+    <params>suite</params>
+    <optionsBefore>
+      <option name="--config" shortcut="-c" pattern="equals">
+        <help><![CDATA[Use custom path for config]]></help>
+      </option>
+      <option name="--colors" shortcut="">
+        <help><![CDATA[Use colors in output]]></help>
+      </option>
+      <option name="--help" shortcut="-h">
+        <help><![CDATA[Display this help message]]></help>
+      </option>
+      <option name="--quiet" shortcut="-q">
+        <help><![CDATA[Do not output any message]]></help>
+      </option>
+      <option name="--verbose" shortcut="-v">
+        <help><![CDATA[Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug]]></help>
+      </option>
+      <option name="--version" shortcut="-V">
+        <help><![CDATA[Display this application version]]></help>
+      </option>
+      <option name="--ansi" shortcut="">
+        <help><![CDATA[Force ANSI output]]></help>
+      </option>
+      <option name="--no-ansi" shortcut="">
+        <help><![CDATA[Disable ANSI output]]></help>
+      </option>
+      <option name="--no-interaction" shortcut="-n">
+        <help><![CDATA[Do not ask any interactive question]]></help>
+      </option>
+    </optionsBefore>
+  </command>
+  <command>
+    <name>help</name>
+    <help><![CDATA[The <b>help</b> command displays help for a given command:<br> <br> <b>php /Users/toby/src/library/php/slim/slim-service-loader/vendor/bin/codecept help list</b><br> <br> You can also output the help in other formats by using the <comment>--format</comment> option:<br> <br> <b>php /Users/toby/src/library/php/slim/slim-service-loader/vendor/bin/codecept help --format=xml list</b><br> <br> To display the list of available commands, please use the <b>list</b> command.<br/><br/><table> <tr><td><strong>Options:</strong></td></tr> <tr><td>--xml</td><td></td><td>To output help as XML</td></tr> <tr><td>--format</td><td></td><td>To output help in other formats</td></tr> <tr><td>--raw</td><td></td><td>To output raw command help</td></tr> <tr><td>--help</td><td>(-h)</td><td>Display this help message</td></tr> <tr><td>--quiet</td><td>(-q)</td><td>Do not output any message</td></tr> <tr><td>--verbose</td><td>(-v)</td><td>Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug</td></tr> <tr><td>--version</td><td>(-V)</td><td>Display this application version</td></tr> <tr><td>--ansi</td><td></td><td>Force ANSI output</td></tr> <tr><td>--no-ansi</td><td></td><td>Disable ANSI output</td></tr> <tr><td>--no-interaction</td><td>(-n)</td><td>Do not ask any interactive question</td></tr> </table> <br/>]]></help>
+    <params>command_name[=null]</params>
+    <optionsBefore>
+      <option name="--xml" shortcut="">
+        <help><![CDATA[To output help as XML]]></help>
+      </option>
+      <option name="--format" shortcut="" pattern="equals">
+        <help><![CDATA[To output help in other formats]]></help>
+      </option>
+      <option name="--raw" shortcut="">
+        <help><![CDATA[To output raw command help]]></help>
+      </option>
+      <option name="--help" shortcut="-h">
+        <help><![CDATA[Display this help message]]></help>
+      </option>
+      <option name="--quiet" shortcut="-q">
+        <help><![CDATA[Do not output any message]]></help>
+      </option>
+      <option name="--verbose" shortcut="-v">
+        <help><![CDATA[Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug]]></help>
+      </option>
+      <option name="--version" shortcut="-V">
+        <help><![CDATA[Display this application version]]></help>
+      </option>
+      <option name="--ansi" shortcut="">
+        <help><![CDATA[Force ANSI output]]></help>
+      </option>
+      <option name="--no-ansi" shortcut="">
+        <help><![CDATA[Disable ANSI output]]></help>
+      </option>
+      <option name="--no-interaction" shortcut="-n">
+        <help><![CDATA[Do not ask any interactive question]]></help>
+      </option>
+    </optionsBefore>
+  </command>
+  <command>
+    <name>list</name>
+    <help><![CDATA[The <b>list</b> command lists all commands:<br> <br> <b>php /Users/toby/src/library/php/slim/slim-service-loader/vendor/bin/codecept list</b><br> <br> You can also display the commands for a specific namespace:<br> <br> <b>php /Users/toby/src/library/php/slim/slim-service-loader/vendor/bin/codecept list test</b><br> <br> You can also output the information in other formats by using the <comment>--format</comment> option:<br> <br> <b>php /Users/toby/src/library/php/slim/slim-service-loader/vendor/bin/codecept list --format=xml</b><br> <br> It's also possible to get raw list of commands (useful for embedding command runner):<br> <br> <b>php /Users/toby/src/library/php/slim/slim-service-loader/vendor/bin/codecept list --raw</b><br/><br/><table> <tr><td><strong>Options:</strong></td></tr> <tr><td>--xml</td><td></td><td>To output list as XML</td></tr> <tr><td>--raw</td><td></td><td>To output raw command list</td></tr> <tr><td>--format</td><td></td><td>To output list in other formats</td></tr> </table> <br/>]]></help>
+    <params>namespace[=null]</params>
+    <optionsBefore>
+      <option name="--xml" shortcut="">
+        <help><![CDATA[To output list as XML]]></help>
+      </option>
+      <option name="--raw" shortcut="">
+        <help><![CDATA[To output raw command list]]></help>
+      </option>
+      <option name="--format" shortcut="" pattern="equals">
+        <help><![CDATA[To output list in other formats]]></help>
+      </option>
+    </optionsBefore>
+  </command>
+  <command>
+    <name>run</name>
+    <help><![CDATA[Runs the test suites<br/><br/><table> <tr><td><strong>Options:</strong></td></tr> <tr><td>--config</td><td>(-c)</td><td>Use custom path for config</td></tr> <tr><td>--report</td><td></td><td>Show output in compact style</td></tr> <tr><td>--html</td><td></td><td>Generate html with results</td></tr> <tr><td>--xml</td><td></td><td>Generate JUnit XML Log</td></tr> <tr><td>--tap</td><td></td><td>Generate Tap Log</td></tr> <tr><td>--json</td><td></td><td>Generate Json Log</td></tr> <tr><td>--colors</td><td></td><td>Use colors in output</td></tr> <tr><td>--no-colors</td><td></td><td>Force no colors in output (useful to override config file)</td></tr> <tr><td>--silent</td><td></td><td>Only outputs suite names and final results</td></tr> <tr><td>--steps</td><td></td><td>Show steps in output</td></tr> <tr><td>--debug</td><td>(-d)</td><td>Show debug and scenario output</td></tr> <tr><td>--coverage</td><td></td><td>Run with code coverage</td></tr> <tr><td>--coverage-html</td><td></td><td>Generate CodeCoverage HTML report in path</td></tr> <tr><td>--coverage-xml</td><td></td><td>Generate CodeCoverage XML report in file</td></tr> <tr><td>--coverage-text</td><td></td><td>Generate CodeCoverage text report in file</td></tr> <tr><td>--no-exit</td><td></td><td>Don't finish with exit code</td></tr> <tr><td>--group</td><td>(-g)</td><td>Groups of tests to be executed</td></tr> <tr><td>--skip</td><td>(-s)</td><td>Skip selected suites</td></tr> <tr><td>--skip-group</td><td>(-sg)</td><td>Skip selected groups</td></tr> <tr><td>--env</td><td></td><td>Run tests in selected environments.</td></tr> <tr><td>--fail-fast</td><td>(-f)</td><td>Stop after first failure</td></tr> <tr><td>--help</td><td>(-h)</td><td>Display this help message</td></tr> <tr><td>--quiet</td><td>(-q)</td><td>Do not output any message</td></tr> <tr><td>--verbose</td><td>(-v)</td><td>Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug</td></tr> <tr><td>--version</td><td>(-V)</td><td>Display this application version</td></tr> <tr><td>--ansi</td><td></td><td>Force ANSI output</td></tr> <tr><td>--no-ansi</td><td></td><td>Disable ANSI output</td></tr> <tr><td>--no-interaction</td><td>(-n)</td><td>Do not ask any interactive question</td></tr> </table> <br/>]]></help>
+    <params>suite[=null] test[=null]</params>
+    <optionsBefore>
+      <option name="--config" shortcut="-c" pattern="equals">
+        <help><![CDATA[Use custom path for config]]></help>
+      </option>
+      <option name="--report" shortcut="">
+        <help><![CDATA[Show output in compact style]]></help>
+      </option>
+      <option name="--html" shortcut="" pattern="equals">
+        <help><![CDATA[Generate html with results]]></help>
+      </option>
+      <option name="--xml" shortcut="" pattern="equals">
+        <help><![CDATA[Generate JUnit XML Log]]></help>
+      </option>
+      <option name="--tap" shortcut="" pattern="equals">
+        <help><![CDATA[Generate Tap Log]]></help>
+      </option>
+      <option name="--json" shortcut="" pattern="equals">
+        <help><![CDATA[Generate Json Log]]></help>
+      </option>
+      <option name="--colors" shortcut="">
+        <help><![CDATA[Use colors in output]]></help>
+      </option>
+      <option name="--no-colors" shortcut="">
+        <help><![CDATA[Force no colors in output (useful to override config file)]]></help>
+      </option>
+      <option name="--silent" shortcut="">
+        <help><![CDATA[Only outputs suite names and final results]]></help>
+      </option>
+      <option name="--steps" shortcut="">
+        <help><![CDATA[Show steps in output]]></help>
+      </option>
+      <option name="--debug" shortcut="-d">
+        <help><![CDATA[Show debug and scenario output]]></help>
+      </option>
+      <option name="--coverage" shortcut="" pattern="equals">
+        <help><![CDATA[Run with code coverage]]></help>
+      </option>
+      <option name="--coverage-html" shortcut="" pattern="equals">
+        <help><![CDATA[Generate CodeCoverage HTML report in path]]></help>
+      </option>
+      <option name="--coverage-xml" shortcut="" pattern="equals">
+        <help><![CDATA[Generate CodeCoverage XML report in file]]></help>
+      </option>
+      <option name="--coverage-text" shortcut="" pattern="equals">
+        <help><![CDATA[Generate CodeCoverage text report in file]]></help>
+      </option>
+      <option name="--no-exit" shortcut="">
+        <help><![CDATA[Don't finish with exit code]]></help>
+      </option>
+      <option name="--group" shortcut="-g" pattern="equals">
+        <help><![CDATA[Groups of tests to be executed]]></help>
+      </option>
+      <option name="--skip" shortcut="-s" pattern="equals">
+        <help><![CDATA[Skip selected suites]]></help>
+      </option>
+      <option name="--skip-group" shortcut="-sg" pattern="equals">
+        <help><![CDATA[Skip selected groups]]></help>
+      </option>
+      <option name="--env" shortcut="" pattern="equals">
+        <help><![CDATA[Run tests in selected environments.]]></help>
+      </option>
+      <option name="--fail-fast" shortcut="-f">
+        <help><![CDATA[Stop after first failure]]></help>
+      </option>
+      <option name="--help" shortcut="-h">
+        <help><![CDATA[Display this help message]]></help>
+      </option>
+      <option name="--quiet" shortcut="-q">
+        <help><![CDATA[Do not output any message]]></help>
+      </option>
+      <option name="--verbose" shortcut="-v">
+        <help><![CDATA[Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug]]></help>
+      </option>
+      <option name="--version" shortcut="-V">
+        <help><![CDATA[Display this application version]]></help>
+      </option>
+      <option name="--ansi" shortcut="">
+        <help><![CDATA[Force ANSI output]]></help>
+      </option>
+      <option name="--no-ansi" shortcut="">
+        <help><![CDATA[Disable ANSI output]]></help>
+      </option>
+      <option name="--no-interaction" shortcut="-n">
+        <help><![CDATA[Do not ask any interactive question]]></help>
+      </option>
+    </optionsBefore>
+  </command>
+  <command>
+    <name>generate:cept</name>
+    <help><![CDATA[Generates empty Cept file in suite<br/><br/><table> <tr><td><strong>Options:</strong></td></tr> <tr><td>--config</td><td>(-c)</td><td>Use custom path for config</td></tr> <tr><td>--help</td><td>(-h)</td><td>Display this help message</td></tr> <tr><td>--quiet</td><td>(-q)</td><td>Do not output any message</td></tr> <tr><td>--verbose</td><td>(-v)</td><td>Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug</td></tr> <tr><td>--version</td><td>(-V)</td><td>Display this application version</td></tr> <tr><td>--ansi</td><td></td><td>Force ANSI output</td></tr> <tr><td>--no-ansi</td><td></td><td>Disable ANSI output</td></tr> <tr><td>--no-interaction</td><td>(-n)</td><td>Do not ask any interactive question</td></tr> </table> <br/>]]></help>
+    <params>suite test</params>
+    <optionsBefore>
+      <option name="--config" shortcut="-c" pattern="equals">
+        <help><![CDATA[Use custom path for config]]></help>
+      </option>
+      <option name="--help" shortcut="-h">
+        <help><![CDATA[Display this help message]]></help>
+      </option>
+      <option name="--quiet" shortcut="-q">
+        <help><![CDATA[Do not output any message]]></help>
+      </option>
+      <option name="--verbose" shortcut="-v">
+        <help><![CDATA[Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug]]></help>
+      </option>
+      <option name="--version" shortcut="-V">
+        <help><![CDATA[Display this application version]]></help>
+      </option>
+      <option name="--ansi" shortcut="">
+        <help><![CDATA[Force ANSI output]]></help>
+      </option>
+      <option name="--no-ansi" shortcut="">
+        <help><![CDATA[Disable ANSI output]]></help>
+      </option>
+      <option name="--no-interaction" shortcut="-n">
+        <help><![CDATA[Do not ask any interactive question]]></help>
+      </option>
+    </optionsBefore>
+  </command>
+  <command>
+    <name>generate:cest</name>
+    <help><![CDATA[Generates empty Cest file in suite<br/><br/><table> <tr><td><strong>Options:</strong></td></tr> <tr><td>--config</td><td>(-c)</td><td>Use custom path for config</td></tr> <tr><td>--help</td><td>(-h)</td><td>Display this help message</td></tr> <tr><td>--quiet</td><td>(-q)</td><td>Do not output any message</td></tr> <tr><td>--verbose</td><td>(-v)</td><td>Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug</td></tr> <tr><td>--version</td><td>(-V)</td><td>Display this application version</td></tr> <tr><td>--ansi</td><td></td><td>Force ANSI output</td></tr> <tr><td>--no-ansi</td><td></td><td>Disable ANSI output</td></tr> <tr><td>--no-interaction</td><td>(-n)</td><td>Do not ask any interactive question</td></tr> </table> <br/>]]></help>
+    <params>suite class</params>
+    <optionsBefore>
+      <option name="--config" shortcut="-c" pattern="equals">
+        <help><![CDATA[Use custom path for config]]></help>
+      </option>
+      <option name="--help" shortcut="-h">
+        <help><![CDATA[Display this help message]]></help>
+      </option>
+      <option name="--quiet" shortcut="-q">
+        <help><![CDATA[Do not output any message]]></help>
+      </option>
+      <option name="--verbose" shortcut="-v">
+        <help><![CDATA[Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug]]></help>
+      </option>
+      <option name="--version" shortcut="-V">
+        <help><![CDATA[Display this application version]]></help>
+      </option>
+      <option name="--ansi" shortcut="">
+        <help><![CDATA[Force ANSI output]]></help>
+      </option>
+      <option name="--no-ansi" shortcut="">
+        <help><![CDATA[Disable ANSI output]]></help>
+      </option>
+      <option name="--no-interaction" shortcut="-n">
+        <help><![CDATA[Do not ask any interactive question]]></help>
+      </option>
+    </optionsBefore>
+  </command>
+  <command>
+    <name>generate:group</name>
+    <help><![CDATA[Generates Group subscriber<br/><br/><table> <tr><td><strong>Options:</strong></td></tr> <tr><td>--config</td><td>(-c)</td><td>Use custom path for config</td></tr> <tr><td>--help</td><td>(-h)</td><td>Display this help message</td></tr> <tr><td>--quiet</td><td>(-q)</td><td>Do not output any message</td></tr> <tr><td>--verbose</td><td>(-v)</td><td>Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug</td></tr> <tr><td>--version</td><td>(-V)</td><td>Display this application version</td></tr> <tr><td>--ansi</td><td></td><td>Force ANSI output</td></tr> <tr><td>--no-ansi</td><td></td><td>Disable ANSI output</td></tr> <tr><td>--no-interaction</td><td>(-n)</td><td>Do not ask any interactive question</td></tr> </table> <br/>]]></help>
+    <params>group</params>
+    <optionsBefore>
+      <option name="--config" shortcut="-c" pattern="equals">
+        <help><![CDATA[Use custom path for config]]></help>
+      </option>
+      <option name="--help" shortcut="-h">
+        <help><![CDATA[Display this help message]]></help>
+      </option>
+      <option name="--quiet" shortcut="-q">
+        <help><![CDATA[Do not output any message]]></help>
+      </option>
+      <option name="--verbose" shortcut="-v">
+        <help><![CDATA[Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug]]></help>
+      </option>
+      <option name="--version" shortcut="-V">
+        <help><![CDATA[Display this application version]]></help>
+      </option>
+      <option name="--ansi" shortcut="">
+        <help><![CDATA[Force ANSI output]]></help>
+      </option>
+      <option name="--no-ansi" shortcut="">
+        <help><![CDATA[Disable ANSI output]]></help>
+      </option>
+      <option name="--no-interaction" shortcut="-n">
+        <help><![CDATA[Do not ask any interactive question]]></help>
+      </option>
+    </optionsBefore>
+  </command>
+  <command>
+    <name>generate:helper</name>
+    <help><![CDATA[Generates new helper<br/><br/><table> <tr><td><strong>Options:</strong></td></tr> <tr><td>--config</td><td>(-c)</td><td>Use custom path for config</td></tr> <tr><td>--help</td><td>(-h)</td><td>Display this help message</td></tr> <tr><td>--quiet</td><td>(-q)</td><td>Do not output any message</td></tr> <tr><td>--verbose</td><td>(-v)</td><td>Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug</td></tr> <tr><td>--version</td><td>(-V)</td><td>Display this application version</td></tr> <tr><td>--ansi</td><td></td><td>Force ANSI output</td></tr> <tr><td>--no-ansi</td><td></td><td>Disable ANSI output</td></tr> <tr><td>--no-interaction</td><td>(-n)</td><td>Do not ask any interactive question</td></tr> </table> <br/>]]></help>
+    <params>name</params>
+    <optionsBefore>
+      <option name="--config" shortcut="-c" pattern="equals">
+        <help><![CDATA[Use custom path for config]]></help>
+      </option>
+      <option name="--help" shortcut="-h">
+        <help><![CDATA[Display this help message]]></help>
+      </option>
+      <option name="--quiet" shortcut="-q">
+        <help><![CDATA[Do not output any message]]></help>
+      </option>
+      <option name="--verbose" shortcut="-v">
+        <help><![CDATA[Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug]]></help>
+      </option>
+      <option name="--version" shortcut="-V">
+        <help><![CDATA[Display this application version]]></help>
+      </option>
+      <option name="--ansi" shortcut="">
+        <help><![CDATA[Force ANSI output]]></help>
+      </option>
+      <option name="--no-ansi" shortcut="">
+        <help><![CDATA[Disable ANSI output]]></help>
+      </option>
+      <option name="--no-interaction" shortcut="-n">
+        <help><![CDATA[Do not ask any interactive question]]></help>
+      </option>
+    </optionsBefore>
+  </command>
+  <command>
+    <name>generate:pageobject</name>
+    <help><![CDATA[Generates empty PageObject class<br/><br/><table> <tr><td><strong>Options:</strong></td></tr> <tr><td>--config</td><td>(-c)</td><td>Use custom path for config</td></tr> <tr><td>--help</td><td>(-h)</td><td>Display this help message</td></tr> <tr><td>--quiet</td><td>(-q)</td><td>Do not output any message</td></tr> <tr><td>--verbose</td><td>(-v)</td><td>Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug</td></tr> <tr><td>--version</td><td>(-V)</td><td>Display this application version</td></tr> <tr><td>--ansi</td><td></td><td>Force ANSI output</td></tr> <tr><td>--no-ansi</td><td></td><td>Disable ANSI output</td></tr> <tr><td>--no-interaction</td><td>(-n)</td><td>Do not ask any interactive question</td></tr> </table> <br/>]]></help>
+    <params>suite page[=null]</params>
+    <optionsBefore>
+      <option name="--config" shortcut="-c" pattern="equals">
+        <help><![CDATA[Use custom path for config]]></help>
+      </option>
+      <option name="--help" shortcut="-h">
+        <help><![CDATA[Display this help message]]></help>
+      </option>
+      <option name="--quiet" shortcut="-q">
+        <help><![CDATA[Do not output any message]]></help>
+      </option>
+      <option name="--verbose" shortcut="-v">
+        <help><![CDATA[Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug]]></help>
+      </option>
+      <option name="--version" shortcut="-V">
+        <help><![CDATA[Display this application version]]></help>
+      </option>
+      <option name="--ansi" shortcut="">
+        <help><![CDATA[Force ANSI output]]></help>
+      </option>
+      <option name="--no-ansi" shortcut="">
+        <help><![CDATA[Disable ANSI output]]></help>
+      </option>
+      <option name="--no-interaction" shortcut="-n">
+        <help><![CDATA[Do not ask any interactive question]]></help>
+      </option>
+    </optionsBefore>
+  </command>
+  <command>
+    <name>generate:phpunit</name>
+    <help><![CDATA[Generates empty PHPUnit test without Codeception additions<br/><br/><table> <tr><td><strong>Options:</strong></td></tr> <tr><td>--config</td><td>(-c)</td><td>Use custom path for config</td></tr> <tr><td>--help</td><td>(-h)</td><td>Display this help message</td></tr> <tr><td>--quiet</td><td>(-q)</td><td>Do not output any message</td></tr> <tr><td>--verbose</td><td>(-v)</td><td>Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug</td></tr> <tr><td>--version</td><td>(-V)</td><td>Display this application version</td></tr> <tr><td>--ansi</td><td></td><td>Force ANSI output</td></tr> <tr><td>--no-ansi</td><td></td><td>Disable ANSI output</td></tr> <tr><td>--no-interaction</td><td>(-n)</td><td>Do not ask any interactive question</td></tr> </table> <br/>]]></help>
+    <params>suite class</params>
+    <optionsBefore>
+      <option name="--config" shortcut="-c" pattern="equals">
+        <help><![CDATA[Use custom path for config]]></help>
+      </option>
+      <option name="--help" shortcut="-h">
+        <help><![CDATA[Display this help message]]></help>
+      </option>
+      <option name="--quiet" shortcut="-q">
+        <help><![CDATA[Do not output any message]]></help>
+      </option>
+      <option name="--verbose" shortcut="-v">
+        <help><![CDATA[Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug]]></help>
+      </option>
+      <option name="--version" shortcut="-V">
+        <help><![CDATA[Display this application version]]></help>
+      </option>
+      <option name="--ansi" shortcut="">
+        <help><![CDATA[Force ANSI output]]></help>
+      </option>
+      <option name="--no-ansi" shortcut="">
+        <help><![CDATA[Disable ANSI output]]></help>
+      </option>
+      <option name="--no-interaction" shortcut="-n">
+        <help><![CDATA[Do not ask any interactive question]]></help>
+      </option>
+    </optionsBefore>
+  </command>
+  <command>
+    <name>generate:scenarios</name>
+    <help><![CDATA[Generates text representation for all scenarios<br/><br/><table> <tr><td><strong>Options:</strong></td></tr> <tr><td>--config</td><td>(-c)</td><td>Use specified config instead of default</td></tr> <tr><td>--path</td><td>(-p)</td><td>Use specified path as destination instead of default</td></tr> <tr><td>--single-file</td><td></td><td>Render all scenarios to only one file</td></tr> <tr><td>--format</td><td>(-f)</td><td>Specify output format: html or text (default)</td></tr> <tr><td>--help</td><td>(-h)</td><td>Display this help message</td></tr> <tr><td>--quiet</td><td>(-q)</td><td>Do not output any message</td></tr> <tr><td>--verbose</td><td>(-v)</td><td>Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug</td></tr> <tr><td>--version</td><td>(-V)</td><td>Display this application version</td></tr> <tr><td>--ansi</td><td></td><td>Force ANSI output</td></tr> <tr><td>--no-ansi</td><td></td><td>Disable ANSI output</td></tr> <tr><td>--no-interaction</td><td>(-n)</td><td>Do not ask any interactive question</td></tr> </table> <br/>]]></help>
+    <params>suite</params>
+    <optionsBefore>
+      <option name="--config" shortcut="-c" pattern="equals">
+        <help><![CDATA[Use specified config instead of default]]></help>
+      </option>
+      <option name="--path" shortcut="-p" pattern="equals">
+        <help><![CDATA[Use specified path as destination instead of default]]></help>
+      </option>
+      <option name="--single-file" shortcut="">
+        <help><![CDATA[Render all scenarios to only one file]]></help>
+      </option>
+      <option name="--format" shortcut="-f" pattern="equals">
+        <help><![CDATA[Specify output format: html or text (default)]]></help>
+      </option>
+      <option name="--help" shortcut="-h">
+        <help><![CDATA[Display this help message]]></help>
+      </option>
+      <option name="--quiet" shortcut="-q">
+        <help><![CDATA[Do not output any message]]></help>
+      </option>
+      <option name="--verbose" shortcut="-v">
+        <help><![CDATA[Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug]]></help>
+      </option>
+      <option name="--version" shortcut="-V">
+        <help><![CDATA[Display this application version]]></help>
+      </option>
+      <option name="--ansi" shortcut="">
+        <help><![CDATA[Force ANSI output]]></help>
+      </option>
+      <option name="--no-ansi" shortcut="">
+        <help><![CDATA[Disable ANSI output]]></help>
+      </option>
+      <option name="--no-interaction" shortcut="-n">
+        <help><![CDATA[Do not ask any interactive question]]></help>
+      </option>
+    </optionsBefore>
+  </command>
+  <command>
+    <name>generate:stepobject</name>
+    <help><![CDATA[Generates empty StepObject class<br/><br/><table> <tr><td><strong>Options:</strong></td></tr> <tr><td>--config</td><td>(-c)</td><td>Use custom path for config</td></tr> <tr><td>--silent</td><td></td><td>skip verification question</td></tr> <tr><td>--help</td><td>(-h)</td><td>Display this help message</td></tr> <tr><td>--quiet</td><td>(-q)</td><td>Do not output any message</td></tr> <tr><td>--verbose</td><td>(-v)</td><td>Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug</td></tr> <tr><td>--version</td><td>(-V)</td><td>Display this application version</td></tr> <tr><td>--ansi</td><td></td><td>Force ANSI output</td></tr> <tr><td>--no-ansi</td><td></td><td>Disable ANSI output</td></tr> <tr><td>--no-interaction</td><td>(-n)</td><td>Do not ask any interactive question</td></tr> </table> <br/>]]></help>
+    <params>suite step</params>
+    <optionsBefore>
+      <option name="--config" shortcut="-c" pattern="equals">
+        <help><![CDATA[Use custom path for config]]></help>
+      </option>
+      <option name="--silent" shortcut="">
+        <help><![CDATA[skip verification question]]></help>
+      </option>
+      <option name="--help" shortcut="-h">
+        <help><![CDATA[Display this help message]]></help>
+      </option>
+      <option name="--quiet" shortcut="-q">
+        <help><![CDATA[Do not output any message]]></help>
+      </option>
+      <option name="--verbose" shortcut="-v">
+        <help><![CDATA[Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug]]></help>
+      </option>
+      <option name="--version" shortcut="-V">
+        <help><![CDATA[Display this application version]]></help>
+      </option>
+      <option name="--ansi" shortcut="">
+        <help><![CDATA[Force ANSI output]]></help>
+      </option>
+      <option name="--no-ansi" shortcut="">
+        <help><![CDATA[Disable ANSI output]]></help>
+      </option>
+      <option name="--no-interaction" shortcut="-n">
+        <help><![CDATA[Do not ask any interactive question]]></help>
+      </option>
+    </optionsBefore>
+  </command>
+  <command>
+    <name>generate:suite</name>
+    <help><![CDATA[Generates new test suite<br/><br/><table> <tr><td><strong>Options:</strong></td></tr> <tr><td>--config</td><td>(-c)</td><td>Use custom path for config</td></tr> <tr><td>--help</td><td>(-h)</td><td>Display this help message</td></tr> <tr><td>--quiet</td><td>(-q)</td><td>Do not output any message</td></tr> <tr><td>--verbose</td><td>(-v)</td><td>Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug</td></tr> <tr><td>--version</td><td>(-V)</td><td>Display this application version</td></tr> <tr><td>--ansi</td><td></td><td>Force ANSI output</td></tr> <tr><td>--no-ansi</td><td></td><td>Disable ANSI output</td></tr> <tr><td>--no-interaction</td><td>(-n)</td><td>Do not ask any interactive question</td></tr> </table> <br/>]]></help>
+    <params>suite actor[=null]</params>
+    <optionsBefore>
+      <option name="--config" shortcut="-c" pattern="equals">
+        <help><![CDATA[Use custom path for config]]></help>
+      </option>
+      <option name="--help" shortcut="-h">
+        <help><![CDATA[Display this help message]]></help>
+      </option>
+      <option name="--quiet" shortcut="-q">
+        <help><![CDATA[Do not output any message]]></help>
+      </option>
+      <option name="--verbose" shortcut="-v">
+        <help><![CDATA[Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug]]></help>
+      </option>
+      <option name="--version" shortcut="-V">
+        <help><![CDATA[Display this application version]]></help>
+      </option>
+      <option name="--ansi" shortcut="">
+        <help><![CDATA[Force ANSI output]]></help>
+      </option>
+      <option name="--no-ansi" shortcut="">
+        <help><![CDATA[Disable ANSI output]]></help>
+      </option>
+      <option name="--no-interaction" shortcut="-n">
+        <help><![CDATA[Do not ask any interactive question]]></help>
+      </option>
+    </optionsBefore>
+  </command>
+  <command>
+    <name>generate:test</name>
+    <help><![CDATA[Generates empty unit test file in suite<br/><br/><table> <tr><td><strong>Options:</strong></td></tr> <tr><td>--config</td><td>(-c)</td><td>Use custom path for config</td></tr> <tr><td>--help</td><td>(-h)</td><td>Display this help message</td></tr> <tr><td>--quiet</td><td>(-q)</td><td>Do not output any message</td></tr> <tr><td>--verbose</td><td>(-v)</td><td>Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug</td></tr> <tr><td>--version</td><td>(-V)</td><td>Display this application version</td></tr> <tr><td>--ansi</td><td></td><td>Force ANSI output</td></tr> <tr><td>--no-ansi</td><td></td><td>Disable ANSI output</td></tr> <tr><td>--no-interaction</td><td>(-n)</td><td>Do not ask any interactive question</td></tr> </table> <br/>]]></help>
+    <params>suite class</params>
+    <optionsBefore>
+      <option name="--config" shortcut="-c" pattern="equals">
+        <help><![CDATA[Use custom path for config]]></help>
+      </option>
+      <option name="--help" shortcut="-h">
+        <help><![CDATA[Display this help message]]></help>
+      </option>
+      <option name="--quiet" shortcut="-q">
+        <help><![CDATA[Do not output any message]]></help>
+      </option>
+      <option name="--verbose" shortcut="-v">
+        <help><![CDATA[Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug]]></help>
+      </option>
+      <option name="--version" shortcut="-V">
+        <help><![CDATA[Display this application version]]></help>
+      </option>
+      <option name="--ansi" shortcut="">
+        <help><![CDATA[Force ANSI output]]></help>
+      </option>
+      <option name="--no-ansi" shortcut="">
+        <help><![CDATA[Disable ANSI output]]></help>
+      </option>
+      <option name="--no-interaction" shortcut="-n">
+        <help><![CDATA[Do not ask any interactive question]]></help>
+      </option>
+    </optionsBefore>
+  </command>
+  <help><![CDATA[<p>Usage:<br> [options] command [arguments] </p><br> <table> <tr><td><strong>Options:</strong></td></tr> <tr><td>--version</td><td>(-V)</td><td>Display this application version</td></tr> <tr><td>--no-interaction</td><td>(-n)</td><td>Do not ask any interactive question</td></tr> <tr><td>--verbose</td><td>(-v)</td><td>Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug</td></tr> <tr><td>--help</td><td>(-h)</td><td>Display this help message</td></tr> <tr><td>--ansi</td><td></td><td>Force ANSI output</td></tr> <tr><td>--no-ansi</td><td></td><td>Disable ANSI output</td></tr> <tr><td>--quiet</td><td>(-q)</td><td>Do not output any message</td></tr> </table> <br/> <table> <tr><td><strong>Available commands:</strong></td></tr> <tr><td>bootstrap</td><td>Creates default test suites and generates all requires files</td></tr> <tr><td>build</td><td>Generates base classes for all suites</td></tr> <tr><td>clean</td><td>Cleans or creates _output directory</td></tr> <tr><td>console</td><td>Launches interactive test console</td></tr> <tr><td>help</td><td>Displays help for a command</td></tr> <tr><td>list</td><td>Lists commands</td></tr> <tr><td>run</td><td>Runs the test suites</td></tr> <tr><td>generate:cept</td><td>Generates empty Cept file in suite</td></tr> <tr><td>generate:cest</td><td>Generates empty Cest file in suite</td></tr> <tr><td>generate:group</td><td>Generates Group subscriber</td></tr> <tr><td>generate:helper</td><td>Generates new helper</td></tr> <tr><td>generate:pageobject</td><td>Generates empty PageObject class</td></tr> <tr><td>generate:phpunit</td><td>Generates empty PHPUnit test without Codeception additions</td></tr> <tr><td>generate:scenarios</td><td>Generates text representation for all scenarios</td></tr> <tr><td>generate:stepobject</td><td>Generates empty StepObject class</td></tr> <tr><td>generate:suite</td><td>Generates new test suite</td></tr> <tr><td>generate:test</td><td>Generates empty unit test file in suite</td></tr> </table> <br/>]]></help>
+</framework>
+
