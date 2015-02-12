@@ -8,6 +8,7 @@
 
 namespace CubicMushroom\Slim\ServiceManager;
 
+use CubicMushroom\Slim\ServiceManager\Exception\InvalidOptionException;
 use Slim\Slim;
 
 /**
@@ -19,6 +20,15 @@ use Slim\Slim;
  */
 class ServiceManager
 {
+
+    const DEFAULT_SERVICE_NAME = 'service_manager';
+
+    /**
+     * Name the service manager registers itself as a service under
+     *
+     * @var string
+     */
+    protected $ownServiceName;
 
     /**
      * @var Slim
@@ -32,15 +42,51 @@ class ServiceManager
     /**
      * Loads services into Slim App based on the content of the 'services' config settings
      *
-     * @param Slim $app [optional] Slim application object to load services for
+     * @param Slim  $app     [optional] Slim application object to load services for
+     * @param array $options [optional] Array of options for the setup of the ServiceManager
      */
-    public function __construct(Slim $app = null)
+    public function __construct(Slim $app = null, array $options = [])
     {
+        $defaultOptions = [
+            'ownServiceName' => self::DEFAULT_SERVICE_NAME,
+        ];
+
+        $this->setOptions($this->mergeOptions($defaultOptions, $options));
+
         if (!is_null($app)) {
             $this->setApp($app);
 
             $this->setupServices();
+
+            $this->registerSelfAsService();
         }
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+    // Setup methods
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * Sets object properties based on options passed
+     *
+     * @param array $options
+     *
+     * @throws InvalidOptionException if an invalid options is passed
+     */
+    protected function setOptions(array $options)
+    {
+        foreach ($options as $key => $value) {
+            switch ($key) {
+                case 'ownServiceName':
+                    $this->setOwnServiceName($value);
+                    break;
+
+                default:
+                    throw InvalidOptionException::build([], ['option' => $key]);
+            }
+
+        }
+
     }
 
 
@@ -66,8 +112,7 @@ class ServiceManager
 
                         if (!empty($config['calls'])) {
                             foreach ($config['calls'] as $call) {
-                                $method = $call[0];
-                                call_user_func_array([$service, $method], $call[1]);
+                                call_user_func_array([$service, $call[0]], $call[1]);
                             }
                         }
 
@@ -76,6 +121,33 @@ class ServiceManager
                 );
             }
         }
+    }
+
+
+    /**
+     * Registers the service manager itself as a service for the app
+     */
+    protected function registerSelfAsService()
+    {
+        $this->getApp()->container->set($this->ownServiceName, $this);
+    }
+
+
+    // -----------------------------------------------------------------------------------------------------------------
+    // Helper methods
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * Works out a full set to
+     *
+     * @param array $defaults Default options
+     * @param array $options  Passed options to override defaults
+     *
+     * @return array
+     */
+    protected function mergeOptions($defaults, $options)
+    {
+        return array_merge($defaults, $options);
     }
 
 
@@ -98,5 +170,27 @@ class ServiceManager
     public function setApp(Slim $app)
     {
         $this->app = $app;
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getOwnServiceName()
+    {
+        return $this->ownServiceName;
+    }
+
+
+    /**
+     * @param mixed $ownServiceName
+     */
+    public function setOwnServiceName($ownServiceName)
+    {
+        if (isset($this->ownServiceName)) {
+            throw PropertyAlreadySetException::build([], ['property' => 'ownServiceName']);
+        }
+
+        $this->ownServiceName = $ownServiceName;
     }
 }

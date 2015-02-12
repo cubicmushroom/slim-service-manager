@@ -23,19 +23,91 @@ class ServiceManagerTest extends \PHPUnit_Framework_TestCase
 
 
     /**
+     * Tests that the service manager registers itself as a service in the app with default name
+     */
+    public function testThatTheServiceManagerRegistersItselfAsAServiceInTheAppWithDefaultName()
+    {
+        $app = new Slim();
+
+        new ServiceManager($app);
+
+        $this->assertInstanceOf(
+            'CubicMushroom\Slim\ServiceManager\ServiceManager',
+            $app->container->get(ServiceManager::DEFAULT_SERVICE_NAME)
+        );
+    }
+
+
+    /**
+     * Tests that the service manager registers itself as a service in the app with different name
+     */
+    public function testThatTheServiceManagerRegistersItselfAsAServiceInTheAppWithDifferentName()
+    {
+        $app         = new Slim();
+        $serviceName = 'test_service_manager';
+
+        new ServiceManager($app, ['ownServiceName' => $serviceName]);
+
+        $this->assertInstanceOf(
+            'CubicMushroom\Slim\ServiceManager\ServiceManager',
+            $app->container->get($serviceName)
+        );
+    }
+
+
+    /**
+     * Tests passing an invalid option to ServiceManager throws an exception
+     *
+     * @expectedException
+     * @expectedExceptionMessage
+     * @expectedExceptionCode
+     */
+    public function testPassingAnInvalidOptionToServiceManagerThrowsAnException()
+    {
+        $this->markTestIncomplete();
+    }
+
+
+    /**
+     * Tests that trying to set the service name after it's set throws an exception
+     *
+     * @expectedException
+     * @expectedExceptionMessage
+     * @expectedExceptionCode
+     */
+    public function testThatTryingToSetTheServiceNameAfterItSSetThrowsAnException()
+    {
+        $this->markTestIncomplete();
+    }
+
+
+    /**
+     * Tests that attempting to change the service name after the service manager is registered throws an exception
+     *
+     * @expectedException
+     * @expectedExceptionMessage
+     * @expectedExceptionCode
+     */
+    public function testThatAttemptingToChangeTheServiceNameAfterTheServiceManagerIsRegisteredThrowsAnException()
+    {
+        $this->markTestIncomplete();
+    }
+
+
+    /**
      * Tests setting up services
      */
     public function testSettingUpServices()
     {
         $serviceConfig = [
-            'testService'              => [
+            'testService'                      => [
                 'class' => 'CubicMushroom\Slim\ServiceManager\TestService'
             ],
-            'testServiceWithArguments' => [
+            'testServiceWithArguments'         => [
                 'class'     => 'CubicMushroom\Slim\ServiceManager\TestService',
                 'arguments' => [1, 2, 3, 'a', 'b', 'c']
             ],
-            'testServiceWithCalls'     => [
+            'testServiceWithCalls'             => [
                 'class' => 'CubicMushroom\Slim\ServiceManager\TestService',
                 'calls' => [
                     ['setThisProp', ['this value']],
@@ -45,7 +117,7 @@ class ServiceManagerTest extends \PHPUnit_Framework_TestCase
             'testServiceWithCallsAndArguments' => [
                 'class'     => 'CubicMushroom\Slim\ServiceManager\TestService',
                 'arguments' => [1, 2, 3, 'a', 'b', 'c'],
-                'calls' => [
+                'calls'     => [
                     ['setThisProp', ['this value']],
                     ['setThatProp', ['that value']],
                 ]
@@ -151,7 +223,6 @@ class ServiceManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function testThatAnExceptionIsThrownIfACallsConfigEntrySetterIsNotACallableMethod()
     {
-        
     }
 
 
