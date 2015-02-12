@@ -1,0 +1,32 @@
+{
+  "name": "slim-service-loader",
+  "version": "1.0.0",
+  "description": "Slim Framework add on to handle loading services from config",
+  "main": "gulpfile.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cubicmushroom/slim-service-loader.git"
+  },
+  "keywords": [
+    "slim-framework",
+    "dependency-injection",
+    "service-container"
+  ],
+  "author": "Toby Griffiths <toby@cubicmushroom.co.uk>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cubicmushroom/slim-service-loader/issues"
+  },
+  "homepage": "https://github.com/cubicmushroom/slim-service-loader",
+  "devDependencies": {
+    "gulp": "^3.8.11",
+    "gulp-shell": "^0.3.0",
+    "gulp-watch": "^4.1.1"
+  }
+}
