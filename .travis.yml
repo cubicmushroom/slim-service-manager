@@ -5,7 +5,7 @@ php:
   - 5.6
 
 install:
-  - composer install
+  - composer install --dev --prefer-dist
 
 script:
-  - codecept run
+  - ./vendor/bin/codecept run
