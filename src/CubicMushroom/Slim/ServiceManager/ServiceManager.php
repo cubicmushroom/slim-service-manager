@@ -11,6 +11,7 @@ namespace CubicMushroom\Slim\ServiceManager;
 use CubicMushroom\Slim\ServiceManager\Exception\Config\InvalidServiceCallConfigException;
 use CubicMushroom\Slim\ServiceManager\Exception\Config\InvalidServiceConfigException;
 use CubicMushroom\Slim\ServiceManager\Exception\InvalidOptionException;
+use CubicMushroom\Slim\ServiceManager\ServiceDefinition;
 use Slim\Slim;
 
 /**
@@ -140,21 +141,7 @@ class ServiceManager
         $this->validateServiceConfig($config, $service);
         $app->container->singleton(
             $service,
-            function () use ($config) {
-                $class = $config['class'];
-                $args  = (!empty($config['arguments']) ? $config['arguments'] : []);
-
-                $reflectionClass = new \ReflectionClass($class);
-                $service         = $reflectionClass->newInstanceArgs($args);
-
-                if (!empty($config['calls'])) {
-                    foreach ($config['calls'] as $call) {
-                        call_user_func_array([$service, $call[0]], $call[1]);
-                    }
-                }
-
-                return $service;
-            }
+            new ServiceDefinition($service, $config)
         );
     }
 

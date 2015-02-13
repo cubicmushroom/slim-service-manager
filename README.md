@@ -102,3 +102,14 @@ The name to use if/when registering the Service Manager as a service.
 Default: true
 
 If set to true the service managed will register itself as a service using the value of the `ownServiceName` setting.
+
+
+Other Classes
+-------------
+
+### ServiceDefinition
+
+This class is used when registering a service.  It's used over a regular closure to allow the service name and config to
+ be stored in the object.
+ 
+ The `__invoke()` method is used to instantiate the service object when requested.
