@@ -138,7 +138,6 @@ class ServiceManager
     {
         $app = $this->getApp();
 
-        $this->validateServiceConfig($config, $service);
         $app->container->singleton(
             $service,
             new ServiceDefinition($service, $config)
@@ -170,65 +169,6 @@ class ServiceManager
     protected function mergeOptions($defaults, $options)
     {
         return array_merge($defaults, $options);
-    }
-
-
-    /**
-     *
-     * @param array  $config      Config to be checked
-     * @param string $serviceName Name of the service checking (for exception)
-     *
-     * @throws InvalidServiceConfigException if missing class parameters
-     * @throws InvalidServiceCallConfigException if the call config is not valid
-     */
-    protected function validateServiceConfig(array $config, $serviceName)
-    {
-        $exceptionArgs = ['serviceName' => $serviceName, 'serviceConfig' => $config];
-
-        if (!isset($config['class'])) {
-            throw InvalidServiceConfigException::build(
-                [],
-                array_merge($exceptionArgs, ['missingParameter' => 'class'])
-            );
-        }
-
-        if (isset($config['calls'])) {
-            if (!is_array($config['calls'])) {
-                throw InvalidServiceCallConfigException::build(
-                    [],
-                    array_merge(
-                        $exceptionArgs,
-                        ['callConfig' => $config['calls']]
-                    )
-                );
-            }
-
-            foreach ($config['calls'] as $callConfigIndex => $callConfig) {
-                if (!is_array($callConfig)) {
-                    throw InvalidServiceCallConfigException::build(
-                        [],
-                        array_merge(
-                            $exceptionArgs,
-                            ['callConfig' => $callConfig, 'callConfigIndex' => $callConfigIndex]
-                        )
-                    );
-                }
-
-                if (isset($callConfig[1]) && !is_array($callConfig[1])) {
-                    throw InvalidServiceCallConfigException::build(
-                        [],
-                        array_merge(
-                            $exceptionArgs,
-                            [
-                                'callConfig'       => $callConfig,
-                                'callConfigIndex'  => $callConfigIndex,
-                                'invalidArguments' => $callConfig[1]
-                            ]
-                        )
-                    );
-                }
-            }
-        }
     }
 
 
