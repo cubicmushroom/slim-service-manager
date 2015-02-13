@@ -112,9 +112,7 @@ class ServiceManager
      */
     public function setupServices()
     {
-        $app = $this->getApp();
-
-        $settings = $app->container->get('settings');
+        $settings = $this->getApp()->container->get('settings');
 
         if (!empty($settings['services'])) {
             if (!is_array($settings['services'])) {
@@ -122,33 +120,42 @@ class ServiceManager
             }
 
             foreach ($settings['services'] as $service => $config) {
-                if (!is_array($config)) {
-                    throw InvalidServiceConfigException::build(
-                        [],
-                        ['serviceName' => $service, 'serviceConfig' => $config]
-                    );
-                }
-                $this->validateServiceConfig($config, $service);
-                $app->container->singleton(
-                    $service,
-                    function () use ($config) {
-                        $class = $config['class'];
-                        $args  = (!empty($config['arguments']) ? $config['arguments'] : []);
-
-                        $reflectionClass = new \ReflectionClass($class);
-                        $service         = $reflectionClass->newInstanceArgs($args);
-
-                        if (!empty($config['calls'])) {
-                            foreach ($config['calls'] as $call) {
-                                call_user_func_array([$service, $call[0]], $call[1]);
-                            }
-                        }
-
-                        return $service;
-                    }
-                );
+                $this->setupService($service, $config);
             }
         }
+    }
+
+
+    /**
+     * @param string $service Service name
+     * @param array  $config  Service definition array
+     *
+     * @throws InvalidServiceConfigException
+     * @throws InvalidServiceCallConfigException
+     */
+    public function setupService($service, array $config)
+    {
+        $app = $this->getApp();
+
+        $this->validateServiceConfig($config, $service);
+        $app->container->singleton(
+            $service,
+            function () use ($config) {
+                $class = $config['class'];
+                $args  = (!empty($config['arguments']) ? $config['arguments'] : []);
+
+                $reflectionClass = new \ReflectionClass($class);
+                $service         = $reflectionClass->newInstanceArgs($args);
+
+                if (!empty($config['calls'])) {
+                    foreach ($config['calls'] as $call) {
+                        call_user_func_array([$service, $call[0]], $call[1]);
+                    }
+                }
+
+                return $service;
+            }
+        );
     }
 
 

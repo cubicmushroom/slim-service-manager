@@ -3,6 +3,7 @@ namespace CubicMushroom\Slim\ServiceManager;
 
 use CubicMushroom\Slim\ServiceManager\Exception\Config\InvalidServiceCallConfigException;
 use CubicMushroom\Slim\ServiceManager\Exception\Config\InvalidServiceConfigException;
+use PHPUnit_Framework_Exception;
 use Slim\Slim;
 
 /**
@@ -240,19 +241,15 @@ class ServiceManagerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Tests that an exception is thrown if the 'calls' config is not an array
+     *
+     * @expectedException PHPUnit_Framework_Exception
+     * @expectedExceptionMessage Argument 2 passed to CubicMushroom\Slim\ServiceManager\ServiceManager::setupService() must be of the type array
      */
     public function testThatAnExceptionIsThrownIfTheCallsConfigIsNotAnArray()
     {
         $app = new Slim(['services' => ['invalidCallService']]);
-        try {
-            new ServiceManager($app);
-        } catch (\Exception $e) {
-        }
 
-        $this->assertTrue(isset($e));
-        $this->assertInstanceOf('CubicMushroom\Slim\ServiceManager\Exception\Config\InvalidServiceConfigException', $e);
-        $this->assertContains("Invalid config for '0' service", $e->getMessage());
-        $this->assertEquals(500, $e->getCode());
+        new ServiceManager($app);
     }
 
 
