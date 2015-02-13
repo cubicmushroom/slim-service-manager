@@ -29,9 +29,14 @@ class ServiceManager
     const DEFAULT_REGISTER_SERVICE = true;
 
     /**
-     * Default value the ServiceManager registers itself as
+     * Default for whether the ServiceManager registers itself as
      */
     const DEFAULT_SERVICE_NAME = 'service_manager';
+
+    /**
+     * Default for whether the ServiceManager registers services automatically
+     */
+    const DEFAULT_AUTOLOAD = true;
 
     /**
      * Array of options
@@ -48,6 +53,7 @@ class ServiceManager
     protected $defaultOptions = [
         'registerAsService' => self::DEFAULT_REGISTER_SERVICE,
         'ownServiceName'    => self::DEFAULT_SERVICE_NAME,
+        'autoload'          => self::DEFAULT_AUTOLOAD,
     ];
 
     /**
@@ -72,7 +78,9 @@ class ServiceManager
         if (!is_null($app)) {
             $this->setApp($app);
 
-            $this->setupServices();
+            if ($this->getOption('autoload')) {
+                $this->setupServices();
+            }
 
             if ($this->getOption('registerAsService')) {
                 $this->registerSelfAsService();
@@ -100,7 +108,7 @@ class ServiceManager
 
 
     /**
-     *
+     * Registers the services with the application
      */
     public function setupServices()
     {

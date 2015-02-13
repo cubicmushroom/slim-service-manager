@@ -348,14 +348,117 @@ class ServiceManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($serviceDefinition['invalidCallService']['calls'][0], $e->getCallConfig());
         $this->assertEquals($serviceDefinition['invalidCallService']['calls'][0][1], $e->getInvalidArguments());
     }
-}
 
 
-class TestSlim
-{
+    /**
+     * Tests that services are autoloaded by default
+     */
+    public function testThatServicesAreAutoloadedByDefault()
+    {
+        //$this->markTestIncomplete();
+        $servicesConfig = [
+            'services' => [
+                'serviceOne'   => [
+                    'class'     => __NAMESPACE__ . '\TestsServiceOne',
+                    'arguments' => ['a', 'b', 'c', '@serviceTwo'],
+                ],
+                'serviceTwo'   => [
+                    'class' => __NAMESPACE__ . '\TestsServiceTwo',
+                    'calls' => [
+                        ['setServiceThree', ['@ServiceThree']]
+                    ]
+                ],
+                'serviceThree' => [
+                    'class' => __NAMESPACE__ . '\TestsServiceThree'
+                ],
+            ]
+        ];
 
-    public $container;
+        $app = new Slim($servicesConfig);
 
+        new ServiceManager($app);
+
+        foreach (array_keys($servicesConfig['services']) as $serviceName) {
+            $this->assertArrayHasKey($serviceName, $app->container->all());
+        }
+    }
+
+
+    /**
+     * Tests that services are loaded if autoload option is true
+     */
+    public function testThatServicesAreLoadedIfAutoloadOptionIsTrue()
+    {
+        //$this->markTestIncomplete();
+        $servicesConfig = [
+            'services' => [
+                'serviceOne'   => [
+                    'class'     => __NAMESPACE__ . '\TestsServiceOne',
+                    'arguments' => ['a', 'b', 'c', '@serviceTwo'],
+                ],
+                'serviceTwo'   => [
+                    'class' => __NAMESPACE__ . '\TestsServiceTwo',
+                    'calls' => [
+                        ['setServiceThree', ['@ServiceThree']]
+                    ]
+                ],
+                'serviceThree' => [
+                    'class' => __NAMESPACE__ . '\TestsServiceThree'
+                ],
+            ]
+        ];
+
+        $app = new Slim($servicesConfig);
+
+        new ServiceManager($app, ['autoload' => true]);
+
+        foreach (array_keys($servicesConfig['services']) as $serviceName) {
+            $this->assertArrayHasKey($serviceName, $app->container->all());
+        }
+    }
+
+
+    /**
+     * Tests that services are not loaded if autoload option is false
+     */
+    public function testThatServicesAreNotLoadedIfAutoloadOptionIsFalse()
+    {
+        //$this->markTestIncomplete();
+        $servicesConfig = [
+            'services' => [
+                'serviceOne'   => [
+                    'class'     => __NAMESPACE__ . '\TestsServiceOne',
+                    'arguments' => ['a', 'b', 'c', '@serviceTwo'],
+                ],
+                'serviceTwo'   => [
+                    'class' => __NAMESPACE__ . '\TestsServiceTwo',
+                    'calls' => [
+                        ['setServiceThree', ['@ServiceThree']]
+                    ]
+                ],
+                'serviceThree' => [
+                    'class' => __NAMESPACE__ . '\TestsServiceThree'
+                ],
+            ]
+        ];
+
+        $app = new Slim($servicesConfig);
+
+        new ServiceManager($app, ['autoload' => false]);
+
+        foreach (array_keys($servicesConfig['services']) as $serviceName) {
+            $this->assertArrayNotHasKey($serviceName, $app->container->all());
+        }
+    }
+
+
+    /**
+     * Tests services are injected OK using @ notation
+     */
+    public function testServicesAreInjectedOkUsingAtSymbolNotation()
+    {
+        $this->markTestIncomplete();
+    }
 }
 
 
@@ -410,4 +513,44 @@ class TestService
     {
         $this->thatProp = $thatProp;
     }
+}
+
+
+class TestServiceOne
+{
+
+    /**
+     * @var array
+     */
+    public $constructorArgs;
+
+
+    /**
+     * Stores it's arguments in $constructorArgs property
+     */
+    function __construct()
+    {
+        $this->constructorArgs = func_get_args();
+    }
+}
+
+
+class TestServiceTwo
+{
+
+    /**
+     * @var TestServiceThree
+     */
+    public $testServiceThree;
+
+
+    public function setServiceThree(TestServiceThree $testServiceThree)
+    {
+        $this->testServiceThree = $testServiceThree;
+    }
+}
+
+
+class TestServiceThree
+{
 }
