@@ -23,9 +23,15 @@ use Slim\Slim;
 class ServiceManager
 {
 
-    const DEFAULT_SERVICE_NAME = 'service_manager';
-
+    /**
+     * Default for whether the ServiceManager automatically registers itself as a service
+     */
     const DEFAULT_REGISTER_SERVICE = true;
+
+    /**
+     * Default value the ServiceManager registers itself as
+     */
+    const DEFAULT_SERVICE_NAME = 'service_manager';
 
     /**
      * Array of options
@@ -40,8 +46,8 @@ class ServiceManager
      * @var array
      */
     protected $defaultOptions = [
-        'ownServiceName'    => self::DEFAULT_SERVICE_NAME,
         'registerAsService' => self::DEFAULT_REGISTER_SERVICE,
+        'ownServiceName'    => self::DEFAULT_SERVICE_NAME,
     ];
 
     /**
