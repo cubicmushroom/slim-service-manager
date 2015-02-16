@@ -5,6 +5,9 @@ Slim Framework Service Loader
 
 The Service Loader is used to prepare services for a Slim Framework app based on service config.
 
+The name of all services registered with the service manager are all prefixed with an '@' symbol.  Therefore, as service 
+name of `this_service` will be registered as `@this_service`.
+
 
 Usage
 -----

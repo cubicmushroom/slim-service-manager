@@ -172,48 +172,48 @@ class ServiceManagerTest extends \PHPUnit_Framework_TestCase
         new ServiceManager($app);
 
         // testService
-        $this->assertInstanceOf('CubicMushroom\Slim\ServiceManager\TestService', $app->container->get('testService'));
+        $this->assertInstanceOf('CubicMushroom\Slim\ServiceManager\TestService', $app->container->get('@testService'));
 
         // testServiceWithArguments
         $this->assertInstanceOf(
             'CubicMushroom\Slim\ServiceManager\TestService',
-            $app->container->get('testServiceWithArguments')
+            $app->container->get('@testServiceWithArguments')
         );
         $this->assertEquals(
             $serviceConfig['testServiceWithArguments']['arguments'],
-            $app->container->get('testServiceWithArguments')->args
+            $app->container->get('@testServiceWithArguments')->args
         );
 
         // testServiceWithCalls
         $this->assertInstanceOf(
             'CubicMushroom\Slim\ServiceManager\TestService',
-            $app->container->get('testServiceWithCalls')
+            $app->container->get('@testServiceWithCalls')
         );
         $this->assertEquals(
             $serviceConfig['testServiceWithCalls']['calls'][0][1][0],
-            $app->container->get('testServiceWithCalls')->thisProp
+            $app->container->get('@testServiceWithCalls')->thisProp
         );
         $this->assertEquals(
             $serviceConfig['testServiceWithCalls']['calls'][1][1][0],
-            $app->container->get('testServiceWithCalls')->thatProp
+            $app->container->get('@testServiceWithCalls')->thatProp
         );
 
         // testServiceWithCallsAndArguments
         $this->assertInstanceOf(
             'CubicMushroom\Slim\ServiceManager\TestService',
-            $app->container->get('testServiceWithCallsAndArguments')
+            $app->container->get('@testServiceWithCallsAndArguments')
         );
         $this->assertEquals(
             $serviceConfig['testServiceWithCallsAndArguments']['arguments'],
-            $app->container->get('testServiceWithCallsAndArguments')->args
+            $app->container->get('@testServiceWithCallsAndArguments')->args
         );
         $this->assertEquals(
             $serviceConfig['testServiceWithCallsAndArguments']['calls'][0][1][0],
-            $app->container->get('testServiceWithCallsAndArguments')->thisProp
+            $app->container->get('@testServiceWithCallsAndArguments')->thisProp
         );
         $this->assertEquals(
             $serviceConfig['testServiceWithCallsAndArguments']['calls'][1][1][0],
-            $app->container->get('testServiceWithCallsAndArguments')->thatProp
+            $app->container->get('@testServiceWithCallsAndArguments')->thatProp
         );
     }
 
@@ -243,7 +243,8 @@ class ServiceManagerTest extends \PHPUnit_Framework_TestCase
      * Tests that an exception is thrown if the 'calls' config is not an array
      *
      * @expectedException PHPUnit_Framework_Exception
-     * @expectedExceptionMessage Argument 2 passed to CubicMushroom\Slim\ServiceManager\ServiceManager::setupService() must be of the type array
+     * @expectedExceptionMessage Argument 2 passed to CubicMushroom\Slim\ServiceManager\ServiceManager::setupService()
+     *                           must be of the type array
      */
     public function testThatAnExceptionIsThrownIfTheCallsConfigIsNotAnArray()
     {
@@ -376,7 +377,7 @@ class ServiceManagerTest extends \PHPUnit_Framework_TestCase
         new ServiceManager($app);
 
         foreach (array_keys($servicesConfig['services']) as $serviceName) {
-            $this->assertArrayHasKey($serviceName, $app->container->all());
+            $this->assertArrayHasKey('@' . $serviceName, $app->container->all());
         }
     }
 
@@ -410,7 +411,7 @@ class ServiceManagerTest extends \PHPUnit_Framework_TestCase
         new ServiceManager($app, ['autoload' => true]);
 
         foreach (array_keys($servicesConfig['services']) as $serviceName) {
-            $this->assertArrayHasKey($serviceName, $app->container->all());
+            $this->assertArrayHasKey('@' . $serviceName, $app->container->all());
         }
     }
 

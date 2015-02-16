@@ -139,7 +139,7 @@ class ServiceManager
         $app = $this->getApp();
 
         $app->container->singleton(
-            $service,
+            '@' . $service,
             new ServiceDefinition($service, $config)
         );
     }
