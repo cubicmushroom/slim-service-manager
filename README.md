@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.org/cubicmushroom/slim-service-loader.svg?branch=master)](https://travis-ci.org/cubicmushroom/slim-service-loader)
 
-Slim Framework Service Loader
-=============================
+Slim Framework Service Manager
+==============================
 
 The Service Loader is used to prepare services for a Slim Framework app based on service config.
 

@@ -1,5 +1,5 @@
 {
-    "name": "cubicmushroom/slim-service-loader",
+    "name": "cubicmushroom/slim-service-manager",
     "description": "Slim Framework add on to handle loading services from config",
     "license": "MIT",
     "authors": [
