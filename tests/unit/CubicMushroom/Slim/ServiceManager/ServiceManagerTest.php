@@ -138,6 +138,46 @@ class ServiceManagerTest extends \PHPUnit_Framework_TestCase
 
 
     /**
+     * Tests that the app is registered by default
+     */
+    public function testThatTheAppIsRegisteredByDefault()
+    {
+        $app = new Slim;
+
+        new ServiceManager($app);
+
+        $this->assertTrue(in_array('@app', $app->container->keys()));
+    }
+
+
+    /**
+     * Tests that the app is registered if registerApp is true
+     */
+    public function testThatTheAppIsRegisteredIfRegisterAppIsTrue()
+    {
+        $app = new Slim;
+
+        new ServiceManager($app, ['registerApp' => true]);
+
+        $this->assertTrue(in_array('@app', $app->container->keys()));
+    }
+
+
+    /**
+     * Tests if the app is not registered if registerApp is false
+     */
+    public function testIfTheAppIsNotRegisteredIfRegisterAppIsFalse()
+    {
+
+        $app = new Slim;
+
+        new ServiceManager($app, ['registerApp' => false]);
+
+        $this->assertTrue(!in_array('@app', $app->container->keys()));
+    }
+
+
+    /**
      * Tests setting up services
      */
     public function testSettingUpServices()
@@ -486,8 +526,6 @@ class ServiceManagerTest extends \PHPUnit_Framework_TestCase
         $serviceThree = $serviceTwo->testServiceThree;
         $this->assertInstanceOf($servicesConfig['services']['serviceTwo']['class'], $serviceTwo);
         $this->assertInstanceOf($servicesConfig['services']['serviceThree']['class'], $serviceThree);
-
-        $this->markTestIncomplete();
     }
 }
 

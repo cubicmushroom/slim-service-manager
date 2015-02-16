@@ -40,6 +40,11 @@ class ServiceManager
     const DEFAULT_AUTOLOAD = true;
 
     /**
+     * Default for whether the service registers the app itself as a service (with the '@app' key)
+     */
+    const DEFAULT_REGISTER_APP = true;
+
+    /**
      * Array of options
      *
      * @var array
@@ -55,6 +60,7 @@ class ServiceManager
         'registerAsService' => self::DEFAULT_REGISTER_SERVICE,
         'ownServiceName'    => self::DEFAULT_SERVICE_NAME,
         'autoload'          => self::DEFAULT_AUTOLOAD,
+        'registerApp'       => self::DEFAULT_REGISTER_APP,
     ];
 
     /**
@@ -78,6 +84,10 @@ class ServiceManager
 
         if (!is_null($app)) {
             $this->setApp($app);
+
+            if ($this->getOption('registerApp')) {
+                $this->registerApp();
+            }
 
             if ($this->getOption('autoload')) {
                 $this->setupServices();
@@ -105,6 +115,16 @@ class ServiceManager
         foreach ($options as $key => $value) {
             $this->setOption($key, $value);
         }
+    }
+
+
+    /**
+     * Registers the app itself as a service
+     */
+    public function registerApp()
+    {
+        $app = $this->getApp();
+        $app->container->set('@app', $app);
     }
 
 

@@ -39,6 +39,7 @@ Here's a quick example of how to use the Service Loader...
         'registerAsService' => true,              // default value
         'ownServiceName'    => 'service_manager', // default value
         'autoload'          => true               // default value
+        'registerApp'       => true               // default value
     ];
     
     new ServiceManager($app, $serviceManagerOptions);
@@ -73,6 +74,7 @@ Here's a quick example of how to use the Service Loader...
             'registerAsService' => true,              // default value
             'ownServiceName'    => 'service_manager', // default value
             'autoload'          => true               // default value
+            'registerApp'       => true               // default value
         ];
         
         new ServiceManager($app, $serviceManagerOptions);
@@ -100,11 +102,18 @@ Default: 'service_manager'
 The name to use if/when registering the Service Manager as a service.
 
 
+#### options.registerApp
+
+Default: true
+
+If set to true the service manager will register the app as a service using the key `@app`.
+
+
 #### options.registerAsService
 
 Default: true
 
-If set to true the service managed will register itself as a service using the value of the `ownServiceName` setting.
+If set to true the service manager will register itself as a service using the value of the `ownServiceName` setting.
 
 
 Other Classes
