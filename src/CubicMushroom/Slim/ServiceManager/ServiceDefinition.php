@@ -16,6 +16,11 @@ class ServiceDefinition
 {
 
     /**
+     * @var ServiceManager
+     */
+    protected $serviceManager;
+
+    /**
      * @var string
      */
     protected $serviceName;
@@ -44,12 +49,18 @@ class ServiceDefinition
     /**
      * Stores config
      *
-     * @param string $serviceName
-     * @param array  $config
+     * @param ServiceManager $serviceManager
+     * @param string         $serviceName
+     * @param array          $config
+     *
+     * @throws InvalidServiceCallConfigException
+     * @throws InvalidServiceConfigException
      */
-    function __construct($serviceName, array $config)
+    function __construct(ServiceManager $serviceManager, $serviceName, array $config)
     {
         $this->validateServiceConfig($config, $serviceName);
+
+        $this->setServiceManager($serviceManager);
 
         $this->setServiceName($serviceName);
         $this->setConfig($config);
@@ -62,9 +73,10 @@ class ServiceDefinition
 
         if (isset($config['calls'])) {
             foreach ($config['calls'] as $call_i => $call) {
-                $this->addCallDefinition($call_i, new MethodCallDefinition($call));
+                $this->addCallDefinition($call_i, new MethodCallDefinition($this, $call));
             }
         }
+        $this->serviceManager = $serviceManager;
     }
 
 
@@ -137,12 +149,19 @@ class ServiceDefinition
         $class = $config['class'];
         $args  = (!empty($config['arguments']) ? $config['arguments'] : []);
 
+        foreach ($args as $arg_i => $arg) {
+            if ('@' === substr($arg, 0, 1)) {
+                $args[$arg_i] = $this->getServiceManager()->getService($arg);
+            }
+        }
+
         $reflectionClass = new \ReflectionClass($class);
         $service         = $reflectionClass->newInstanceArgs($args);
 
-        if (!empty($config['calls'])) {
-            foreach ($config['calls'] as $call) {
-                call_user_func_array([$service, $call[0]], $call[1]);
+        $methodCalls = $this->getMethodCallDefinitions();
+        if (!empty($methodCalls)) {
+            foreach ($methodCalls as $methodCall) {
+                $methodCall($service);
             }
         }
 
@@ -153,6 +172,24 @@ class ServiceDefinition
     // -----------------------------------------------------------------------------------------------------------------
     // Getters and Setters
     // -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * @return ServiceManager
+     */
+    public function getServiceManager()
+    {
+        return $this->serviceManager;
+    }
+
+
+    /**
+     * @param ServiceManager $serviceManager
+     */
+    public function setServiceManager($serviceManager)
+    {
+        $this->serviceManager = $serviceManager;
+    }
+
 
     /**
      * @return string

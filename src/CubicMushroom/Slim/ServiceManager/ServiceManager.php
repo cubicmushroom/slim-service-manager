@@ -140,7 +140,7 @@ class ServiceManager
 
         $app->container->singleton(
             '@' . $service,
-            new ServiceDefinition($service, $config)
+            new ServiceDefinition($this, $service, $config)
         );
     }
 
@@ -151,6 +151,23 @@ class ServiceManager
     public function registerSelfAsService()
     {
         $this->getApp()->container->set($this->options['ownServiceName'], $this);
+    }
+
+
+    /**
+     * Returns a service using the service name given
+     *
+     * The service name will be prefixed with an '@' if it's not already
+     *
+     * @param string $serviceName Service name, with or without the '@' prefix
+     *
+     * @return mixed
+     */
+    public function getService($serviceName)
+    {
+        $serviceName = '@' . preg_replace('/^@/', '', $serviceName);
+
+        return $this->getApp()->container->get($serviceName);
     }
 
 

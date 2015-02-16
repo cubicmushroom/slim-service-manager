@@ -42,6 +42,10 @@ class InvalidServiceCallConfigException extends InvalidServiceConfigException
             $message .= " - Call config index '{$additionalProperties['callConfigIndex']}'";
         }
 
+        if (isset($additionalProperties['methodName'])) {
+            $message .= " - Service is missing requested method '{$additionalProperties['methodName']}'";
+        }
+
         if (isset($additionalProperties['invalidArguments'])) {
             $message .= " - Arguments must be an array";
         }

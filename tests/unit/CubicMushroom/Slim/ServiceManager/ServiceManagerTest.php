@@ -455,6 +455,38 @@ class ServiceManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function testServicesAreInjectedOkUsingAtSymbolNotation()
     {
+        //$this->markTestIncomplete();
+        $servicesConfig = [
+            'services' => [
+                'serviceOne'   => [
+                    'class'     => __NAMESPACE__ . '\TestServiceOne',
+                    'arguments' => ['a', 'b', 'c', '@serviceTwo'],
+                ],
+                'serviceTwo'   => [
+                    'class' => __NAMESPACE__ . '\TestServiceTwo',
+                    'calls' => [
+                        ['setServiceThree', ['@serviceThree']]
+                    ]
+                ],
+                'serviceThree' => [
+                    'class' => __NAMESPACE__ . '\TestServiceThree'
+                ],
+            ]
+        ];
+
+        $app = new Slim($servicesConfig);
+
+        new ServiceManager($app, ['autoload' => true]);
+
+        /** @var TestServiceOne $serviceOne */
+        $serviceOne = $app->container->get('@serviceOne');
+        /** @var TestServiceTwo $serviceTwo */
+        $serviceTwo = $serviceOne->constructorArgs[3];
+        /** @var TestServiceThree $serviceThree */
+        $serviceThree = $serviceTwo->testServiceThree;
+        $this->assertInstanceOf($servicesConfig['services']['serviceTwo']['class'], $serviceTwo);
+        $this->assertInstanceOf($servicesConfig['services']['serviceThree']['class'], $serviceThree);
+
         $this->markTestIncomplete();
     }
 }
