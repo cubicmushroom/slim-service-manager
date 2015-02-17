@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/cubicmushroom/slim-service-loader.svg?branch=master)](https://travis-ci.org/cubicmushroom/slim-service-loader)
+[![Build Status](https://travis-ci.org/cubicmushroom/slim-service-manager.svg?branch=master)](https://travis-ci.org/cubicmushroom/slim-service-manager)
 
 Slim Framework Service Manager
 ==============================
