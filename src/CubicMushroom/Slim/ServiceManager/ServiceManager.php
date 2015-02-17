@@ -194,7 +194,7 @@ class ServiceManager
     /**
      * @param $tagName
      *
-     * @return array[]
+     * @return ServiceDefinition[]
      */
     public function getTaggedServices($tagName)
     {
