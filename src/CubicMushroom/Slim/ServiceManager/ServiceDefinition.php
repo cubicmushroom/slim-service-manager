@@ -144,28 +144,34 @@ class ServiceDefinition
      */
     function __invoke()
     {
-        $config = $this->config;
 
-        $class = $config['class'];
-        $args  = (!empty($config['arguments']) ? $config['arguments'] : []);
+        if (!isset($this->service)) {
 
-        foreach ($args as $arg_i => $arg) {
-            if ('@' === substr($arg, 0, 1)) {
-                $args[$arg_i] = $this->getServiceManager()->getService($arg);
+            $config = $this->config;
+
+            $class = $config['class'];
+            $args  = (!empty($config['arguments']) ? $config['arguments'] : []);
+
+            foreach ($args as $arg_i => $arg) {
+                if ('@' === substr($arg, 0, 1)) {
+                    $args[$arg_i] = $this->getServiceManager()->getService($arg);
+                }
             }
+
+            $reflectionClass = new \ReflectionClass($class);
+            $service         = $reflectionClass->newInstanceArgs($args);
+
+            $methodCalls = $this->getMethodCallDefinitions();
+            if (!empty($methodCalls)) {
+                foreach ($methodCalls as $methodCall) {
+                    $methodCall($service);
+                }
+            }
+
+            $this->service = $service;
         }
 
-        $reflectionClass = new \ReflectionClass($class);
-        $service         = $reflectionClass->newInstanceArgs($args);
-
-        $methodCalls = $this->getMethodCallDefinitions();
-        if (!empty($methodCalls)) {
-            foreach ($methodCalls as $methodCall) {
-                $methodCall($service);
-            }
-        }
-
-        return $service;
+        return $this->service;
     }
 
 
