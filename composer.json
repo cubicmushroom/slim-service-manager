@@ -1,25 +1,25 @@
 {
-    "name": "cubicmushroom/slim-service-manager",
-    "description": "Slim Framework add on to handle loading services from config",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Toby Griffiths",
-            "email": "toby@cubicmushroom.co.uk"
-        }
-    ],
-    "minimum-stability": "stable",
-    "require": {
-        "slim/slim": "~2.0",
-        "codeception/aspect-mock": "*",
-        "cubicmushroom/exceptions": "*"
-    },
-    "require-dev": {
-        "codeception/codeception": "~2.0"
-    },
-    "autoload": {
-        "psr-4": {
-            "": "src/"
-        }
+  "name": "cubicmushroom/slim-service-manager",
+  "description": "Slim Framework add on to handle loading services from config",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Toby Griffiths",
+      "email": "toby@cubicmushroom.co.uk"
     }
+  ],
+  "minimum-stability": "stable",
+  "require": {
+    "slim/slim": "~2.0",
+    "cubicmushroom/exceptions": "*"
+  },
+  "require-dev": {
+    "codeception/codeception": "~2.0",
+    "codeception/aspect-mock": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "": "src/"
+    }
+  }
 }
