@@ -175,6 +175,17 @@ class ServiceManager
 
 
     /**
+     * @param $serviceName
+     *
+     * @return string
+     */
+    public function getServiceName($serviceName)
+    {
+        return '@' . ltrim($serviceName, '@');
+    }
+
+
+    /**
      * Returns a service using the service name given
      *
      * The service name will be prefixed with an '@' if it's not already
@@ -185,7 +196,7 @@ class ServiceManager
      */
     public function getService($serviceName)
     {
-        $serviceName = '@' . preg_replace('/^@/', '', $serviceName);
+        $serviceName = $this->getServiceName($serviceName);
 
         return $this->getApp()->container->get($serviceName);
     }
