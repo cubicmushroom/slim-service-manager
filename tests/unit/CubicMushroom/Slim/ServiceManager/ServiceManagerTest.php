@@ -183,21 +183,30 @@ class ServiceManagerTest extends \PHPUnit_Framework_TestCase
     public function testSettingUpServices()
     {
         $serviceConfig = [
-            'testService'                      => [
+            'testService'                          => [
                 'class' => 'CubicMushroom\Slim\ServiceManager\TestService'
             ],
-            'testServiceWithArguments'         => [
+            'testServiceWithArguments'             => [
                 'class'     => 'CubicMushroom\Slim\ServiceManager\TestService',
                 'arguments' => [1, 2, 3, 'a', 'b', 'c']
             ],
-            'testServiceWithCalls'             => [
+            'testServiceWithCalls'                 => [
                 'class' => 'CubicMushroom\Slim\ServiceManager\TestService',
                 'calls' => [
                     ['setThisProp', ['this value']],
                     ['setThatProp', ['that value']],
                 ]
             ],
-            'testServiceWithCallsAndArguments' => [
+            'testServiceWithTags'                  => [
+                'class' => 'CubicMushroom\Slim\ServiceManager\TestService',
+                'tags'  => [
+                    ['tag1'],
+                    ['tag2', ['argument']],
+                    ['tag2', ['another_argument']],
+                    ['tag3', ['@testService', 123]],
+                ]
+            ],
+            'testServiceWithCallsAndArguments'     => [
                 'class'     => 'CubicMushroom\Slim\ServiceManager\TestService',
                 'arguments' => [1, 2, 3, 'a', 'b', 'c'],
                 'calls'     => [
@@ -205,16 +214,32 @@ class ServiceManagerTest extends \PHPUnit_Framework_TestCase
                     ['setThatProp', ['that value']],
                 ]
             ],
+            'testServiceWithCallsArgumentsAndTags' => [
+                'class'     => 'CubicMushroom\Slim\ServiceManager\TestService',
+                'arguments' => [1, 2, 3, 'a', 'b', 'c'],
+                'calls'     => [
+                    ['setThisProp', ['this value']],
+                    ['setThatProp', ['that value']],
+                ],
+                'tags'      => [
+                    ['tag1'],
+                ],
+            ],
         ];
 
         $app = new Slim(['services' => $serviceConfig]);
 
-        new ServiceManager($app);
+        $sm = new ServiceManager($app);
+
+        $services = $app->container->all();
 
         // testService
-        $this->assertInstanceOf('CubicMushroom\Slim\ServiceManager\TestService', $app->container->get('@testService'));
+        $this->assertTrue(in_array('@testService', array_keys($services)));
+        $testService = $app->container->get('@testService');
+        $this->assertInstanceOf('CubicMushroom\Slim\ServiceManager\TestService', $testService);
 
         // testServiceWithArguments
+        $this->assertTrue(in_array('@testServiceWithArguments', array_keys($services)));
         $this->assertInstanceOf(
             'CubicMushroom\Slim\ServiceManager\TestService',
             $app->container->get('@testServiceWithArguments')
@@ -225,6 +250,7 @@ class ServiceManagerTest extends \PHPUnit_Framework_TestCase
         );
 
         // testServiceWithCalls
+        $this->assertTrue(in_array('@testServiceWithCalls', array_keys($services)));
         $this->assertInstanceOf(
             'CubicMushroom\Slim\ServiceManager\TestService',
             $app->container->get('@testServiceWithCalls')
@@ -238,7 +264,38 @@ class ServiceManagerTest extends \PHPUnit_Framework_TestCase
             $app->container->get('@testServiceWithCalls')->thatProp
         );
 
+        // testServiceWithTags
+        $this->assertTrue(in_array('@testServiceWithTags', array_keys($services)));
+        $this->assertInstanceOf(
+            'CubicMushroom\Slim\ServiceManager\TestService',
+            $app->container->get('@testServiceWithTags')
+        );
+        /** @var ServiceDefinition $testServiceWithTagsDefinition */
+        $testServiceWithTagsDefinition = $services['@testServiceWithTags'];
+        $this->assertInstanceOf(
+            'CubicMushroom\Slim\ServiceManager\ServiceDefinition',
+            $testServiceWithTagsDefinition
+        );
+        $testServiceWithTagsTags = $testServiceWithTagsDefinition->getTags();
+        $this->assertArrayHasKey($serviceConfig['testServiceWithTags']['tags'][0][0], $testServiceWithTagsTags);
+        $this->assertArrayHasKey($serviceConfig['testServiceWithTags']['tags'][1][0], $testServiceWithTagsTags);
+        $this->assertEquals(
+            $serviceConfig['testServiceWithTags']['tags'][1][1],
+            $testServiceWithTagsTags['tag2'][0]->getArguments()
+        );
+        $this->assertArrayHasKey($serviceConfig['testServiceWithTags']['tags'][2][0], $testServiceWithTagsTags);
+        $this->assertEquals(
+            $serviceConfig['testServiceWithTags']['tags'][2][1],
+            $testServiceWithTagsTags['tag2'][1]->getArguments()
+        );
+        $this->assertArrayHasKey($serviceConfig['testServiceWithTags']['tags'][3][0], $testServiceWithTagsTags);
+        $this->assertEquals(
+            $serviceConfig['testServiceWithTags']['tags'][3][1],
+            $testServiceWithTagsTags['tag3'][0]->getArguments()
+        );
+
         // testServiceWithCallsAndArguments
+        $this->assertTrue(in_array('@testServiceWithCallsAndArguments', array_keys($services)));
         $this->assertInstanceOf(
             'CubicMushroom\Slim\ServiceManager\TestService',
             $app->container->get('@testServiceWithCallsAndArguments')
@@ -255,6 +312,53 @@ class ServiceManagerTest extends \PHPUnit_Framework_TestCase
             $serviceConfig['testServiceWithCallsAndArguments']['calls'][1][1][0],
             $app->container->get('@testServiceWithCallsAndArguments')->thatProp
         );
+    }
+
+
+    /**
+     * Tests that tagged services can be retrieved
+     */
+    public function testThatTaggedServicesCanBeRetrieved()
+    {
+        $serviceConfig = [
+            'services' => [
+                'testServiceOne'   => [
+                    'class' => 'CubicMushroom\Slim\ServiceManager\TestService',
+                    'tags'  => [
+                        ['tag1'],
+                        ['tag2', ['argument']],
+                        ['tag2', ['another_argument']],
+                    ]
+                ],
+                'testServiceTwo'   => [
+                    'class' => 'CubicMushroom\Slim\ServiceManager\TestService',
+                    'tags'  => [
+                        ['tag1'],
+                        ['tag3', ['@testService', 123]],
+                    ]
+                ],
+                'testServiceThree' => [
+                    'class' => 'CubicMushroom\Slim\ServiceManager\TestService',
+                    'tags'  => [
+                        ['tag2', ['argument']],
+                    ]
+                ],
+            ],
+        ];
+
+        $app = new Slim($serviceConfig);
+
+        $sc = new ServiceManager($app);
+
+        $this->assertArrayHasKey('@testServiceOne', $sc->getTaggedServices('tag1'));
+        $this->assertArrayHasKey('@testServiceTwo', $sc->getTaggedServices('tag1'));
+        $this->assertArrayNotHasKey('@testServiceThree', $sc->getTaggedServices('tag1'));
+        $this->assertArrayHasKey('@testServiceOne', $sc->getTaggedServices('tag2'));
+        $this->assertArrayNotHasKey('@testServiceTwo', $sc->getTaggedServices('tag2'));
+        $this->assertArrayHasKey('@testServiceThree', $sc->getTaggedServices('tag2'));
+        $this->assertArrayNotHasKey('@testServiceOne', $sc->getTaggedServices('tag3'));
+        $this->assertArrayHasKey('@testServiceTwo', $sc->getTaggedServices('tag3'));
+        $this->assertArrayNotHasKey('@testServiceThree', $sc->getTaggedServices('tag3'));
     }
 
 

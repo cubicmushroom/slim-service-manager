@@ -11,6 +11,8 @@ namespace CubicMushroom\Slim\ServiceManager;
 use CubicMushroom\Slim\ServiceManager\Exception\Config\InvalidServiceCallConfigException;
 use CubicMushroom\Slim\ServiceManager\Exception\Config\InvalidServiceConfigException;
 use CubicMushroom\Slim\ServiceManager\ServiceDefinition\MethodCallDefinition;
+use CubicMushroom\Slim\ServiceManager\ServiceDefinition\Tag;
+use CubicMushroom\Slim\ServiceManager\ServiceDefinition\TagSet;
 
 class ServiceDefinition
 {
@@ -41,9 +43,20 @@ class ServiceDefinition
     protected $methodCallDefinitions;
 
     /**
+     * @var TagSet|Tag[]
+     */
+    protected $tags;
+
+    /**
      * @var array
      */
     protected $config;
+
+    /**
+     * The constructed service object
+     * @var mixed
+     */
+    protected $service;
 
 
     /**
@@ -76,6 +89,15 @@ class ServiceDefinition
                 $this->addCallDefinition($call_i, new MethodCallDefinition($this, $call));
             }
         }
+
+        $this->setTags(new TagSet());
+
+        if (!empty($config['tags'])) {
+            foreach ($config['tags'] as $tagConfig) {
+                $this->addTag(new Tag($tagConfig));
+            }
+        }
+
         $this->serviceManager = $serviceManager;
     }
 
@@ -299,5 +321,40 @@ class ServiceDefinition
         $definitions[$index] = $methodCallDefinition;
 
         $this->setMethodCallDefinitions($definitions);
+    }
+
+
+    /**
+     * @return TagSet|Tag[]
+     */
+    public function getTags()
+    {
+        return $this->tags;
+    }
+
+
+    /**
+     * @param TagSet|Tag[] $tags
+     */
+    public function setTags($tags)
+    {
+        if (!$tags instanceof TagSet) {
+            $tags = new TagSet($tags);
+        }
+        $this->tags = $tags;
+    }
+
+
+    /**
+     *
+     * @param Tag $tag
+     */
+    public function addTag(Tag $tag)
+    {
+        $tags                  = $this->getTags();
+        $namedTags             = $tags[$tag->getName()];
+        $namedTags[]           = $tag;
+        $tags[$tag->getName()] = $namedTags;
+        $this->setTags($tags);
     }
 }

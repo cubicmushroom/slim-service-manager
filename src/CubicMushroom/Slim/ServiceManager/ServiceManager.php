@@ -191,6 +191,28 @@ class ServiceManager
     }
 
 
+    /**
+     * @param $tagName
+     *
+     * @return array[]
+     */
+    public function getTaggedServices($tagName)
+    {
+        $taggedServices = [];
+        foreach ($this->getApp()->container->all() as $serviceName => $serviceDefinition) {
+            if (!$serviceDefinition instanceof ServiceDefinition) {
+                continue;
+            }
+
+            if (in_array($tagName, $serviceDefinition->getTags()->keys())) {
+                $taggedServices['@' . $serviceDefinition->getServiceName()] = $serviceDefinition;
+            }
+        }
+
+        return $taggedServices;
+    }
+
+
     // -----------------------------------------------------------------------------------------------------------------
     // Helper methods
     // -----------------------------------------------------------------------------------------------------------------
