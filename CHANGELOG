@@ -1,0 +1,7 @@
+# Change Log
+All notable changes to this project will be documented in this file.
+This project adheres to [Semantic Versioning](http://semver.org/).
+
+## [1.3.4] - 2015-02-18
+### Changed
+- When registering the service manager as a service, service name it prefixed with '@'
