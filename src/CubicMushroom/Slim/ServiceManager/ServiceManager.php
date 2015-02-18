@@ -170,7 +170,7 @@ class ServiceManager
      */
     public function registerSelfAsService()
     {
-        $this->getApp()->container->set($this->options['ownServiceName'], $this);
+        $this->getApp()->container->set('@' . $this->options['ownServiceName'], $this);
     }
 
 
