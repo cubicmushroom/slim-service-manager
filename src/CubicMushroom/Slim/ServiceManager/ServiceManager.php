@@ -179,7 +179,7 @@ class ServiceManager
      *
      * @return string
      */
-    public function getServiceName($serviceName)
+    public static function getServiceName($serviceName)
     {
         return '@' . ltrim($serviceName, '@');
     }
