@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.3.6] - 2015-02-20
+### Changed
+- Service name used for ServiceManager's own service name will always be prefixed with an '@', however the
+  'ownServiceName' option can include this or not
+- ServiceManager::DEFAULT_SERVICE_NAME is now prefixed with an '@'
+
 ## [1.3.5] - 2015-02-20
 ### Added
 - Gulp tasks for version releases
