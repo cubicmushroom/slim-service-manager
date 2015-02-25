@@ -32,7 +32,7 @@ class ServiceManager
     /**
      * Default for whether the ServiceManager registers itself as
      */
-    const DEFAULT_SERVICE_NAME = 'service_manager';
+    const DEFAULT_SERVICE_NAME = '@service_manager';
 
     /**
      * Default for whether the ServiceManager registers services automatically
@@ -170,7 +170,7 @@ class ServiceManager
      */
     public function registerSelfAsService()
     {
-        $this->getApp()->container->set('@' . $this->options['ownServiceName'], $this);
+        $this->getApp()->container->set('@' . ltrim($this->options['ownServiceName'], '@'), $this);
     }
 
 

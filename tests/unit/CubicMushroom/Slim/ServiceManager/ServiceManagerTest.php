@@ -36,7 +36,7 @@ class ServiceManagerTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf(
             'CubicMushroom\Slim\ServiceManager\ServiceManager',
-            $app->container->get('@' . ServiceManager::DEFAULT_SERVICE_NAME)
+            $app->container->get(ServiceManager::DEFAULT_SERVICE_NAME)
         );
     }
 
@@ -83,7 +83,7 @@ class ServiceManagerTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf(
             '\CubicMushroom\Slim\ServiceManager\ServiceManager',
-            $app->container->get('@' . ServiceManager::DEFAULT_SERVICE_NAME)
+            $app->container->get(ServiceManager::DEFAULT_SERVICE_NAME)
         );
     }
 
@@ -112,7 +112,7 @@ class ServiceManagerTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf(
             '\CubicMushroom\Slim\ServiceManager\ServiceManager',
-            $app->container->get('@' . ServiceManager::DEFAULT_SERVICE_NAME)
+            $app->container->get(ServiceManager::DEFAULT_SERVICE_NAME)
         );
     }
 
@@ -132,7 +132,7 @@ class ServiceManagerTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf(
             '\CubicMushroom\Slim\ServiceManager\ServiceManager',
-            $app->container->get('@' . ServiceManager::DEFAULT_SERVICE_NAME)
+            $app->container->get(ServiceManager::DEFAULT_SERVICE_NAME)
         );
     }
 
